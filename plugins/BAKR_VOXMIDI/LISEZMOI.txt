@@ -1,0 +1,25 @@
+BAKR VOXMIDI v1.0 - ta voix devient du MIDI (VST3 pour FL Studio)
+=================================================================
+INSTALLATION
+1. Dezippe BAKR_VOXMIDI_Windows.zip
+2. Double-clique sur Installer.bat (accepte la demande administrateur)
+3. FL Studio : Options > Manage plugins > Find installed plugins
+
+UTILISATION DANS FL STUDIO
+- Mets BAKR VOXMIDI sur la piste du Mixer ou arrive ton micro (ou ta voix enregistree).
+- SYNTH : le plugin joue directement ta melodie avec l'instrument choisi
+  (Guitare, Basse, Cuivres, Lead, Kora, Balafon, 808, Flute).
+- CAPTURE : appuie sur "Capture", chante (lecture FL lancee pour que les notes soient
+  calees sur le morceau), puis glisse la zone "Glisse le MIDI vers FL Studio" dans le
+  Piano roll ou la Playlist. Ou "Enregistrer .mid" -> Documents\BAKR VOXMIDI.
+- MIDI OUT : pour piloter un autre instrument en direct, dans le wrapper du plugin
+  (roue dentee) regle "Output port" sur un numero, et mets le meme "Input port" sur
+  l'instrument (Channel settings > MIDI input port).
+
+REGLAGES
+- Tonalite / Gamme : les notes sont corrigees dans la gamme (Chromatique = aucune correction).
+- Sensibilite : en dessous de ce niveau, le plugin ignore le son (bruit, respiration).
+- Stabilite : temps minimum avant de changer de note (plus haut = moins de notes parasites).
+- Glide : glissement entre les notes du synthe. Suivre la voix : le synthe suit vibrato et glissandos.
+- Octave : transpose les notes (ex. -2 pour une basse).
+- Voix : niveau de ta voix dans la sortie. Instrument : niveau du synthe.

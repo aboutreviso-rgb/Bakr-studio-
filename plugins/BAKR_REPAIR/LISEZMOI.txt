@@ -1,0 +1,28 @@
+BAKR REPAIR v1.0 - Assistant de réparation vocale (VST3 pour FL Studio)
+=====================================================================
+
+MODULES
+- CLEAN UP : De-noise (bruit de fond / souffle), De-reverb (résonance de la pièce),
+             De-hum (ronflement 50/60 Hz), De-click (clics et petits craquements)
+- TONE     : Tilt (plus brillant / plus chaud) ou Scoop (creuse les médiums boueux), Lo-cut 80 Hz, Hi-cut 15 kHz
+- DE-ESS   : réduit les "S" trop forts (Threshold, Shaping 3,5-9 kHz, Fast/Slow + mètre de réduction)
+- DE-CLIP  : reconstruit les crêtes saturées, Output Gain, Limiter (-0,3 dB)
+- LEARN    : joue ta voix, clique Learn : le plugin écoute 4 s et règle tout seul
+- OREILLE  : écoute seulement ce que le module enlève
+- 9 presets (voix chambre, téléphone, Afrobeats, Mandingue, Rap/Drill, Reggae, guitare...)
+
+Latence : 1280 échantillons (~27 ms à 48 kHz), compensée automatiquement par FL Studio.
+=> à utiliser au mixage, pas pendant l'enregistrement.
+
+COMPILER SOUS WINDOWS
+1. Installer Visual Studio 2022 Community (charge de travail "Développement Desktop en C++"),
+   CMake et Git.
+2. Double-cliquer sur build_windows.bat (JUCE est téléchargé automatiquement la première fois).
+3. Le plugin sort dans : build\BAKR_REPAIR_artefacts\Release\VST3\BAKR REPAIR.vst3
+   Le script propose de le copier dans C:\Program Files\Common Files\VST3
+4. FL Studio : Options > Gérer les plugins > Rechercher des plugins.
+
+SANS VISUAL STUDIO : mets le dossier sur GitHub, l'onglet Actions compile le VST3
+automatiquement (fichier .github/workflows/build.yml) et tu télécharges le résultat.
+
+Pour l'ajouter à l'installateur BAKR Suite : ajouter "BAKR REPAIR.vst3" à la liste des plugins.

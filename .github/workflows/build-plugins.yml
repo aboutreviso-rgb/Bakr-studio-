@@ -1,0 +1,39 @@
+name: Build plugins VST3 (Windows)
+on:
+  push:
+    paths: ['plugins/**', '.github/workflows/build-plugins.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compiler BAKR VOXMIDI
+        run: |
+          cmake -S plugins/BAKR_VOXMIDI -B build_vox -A x64
+          cmake --build build_vox --config Release
+      - name: Compiler BAKR REPAIR
+        run: |
+          cmake -S plugins/BAKR_REPAIR -B build_rep -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_rep --config Release
+      - name: Paquets
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force pkg_vox, pkg_rep | Out-Null
+          Copy-Item -Recurse "build_vox/BAKR_VOXMIDI_artefacts/Release/VST3/BAKR VOXMIDI.vst3" pkg_vox/
+          Copy-Item plugins/BAKR_VOXMIDI/Installer.bat, plugins/BAKR_VOXMIDI/LISEZMOI.txt pkg_vox/
+          Copy-Item -Recurse "build_rep/BAKR_REPAIR_artefacts/Release/VST3/BAKR REPAIR.vst3" pkg_rep/
+          Copy-Item plugins/BAKR_REPAIR/Installer.bat, plugins/BAKR_REPAIR/LISEZMOI.txt pkg_rep/
+          Compress-Archive -Path pkg_vox/* -DestinationPath BAKR_VOXMIDI_Windows.zip
+          Compress-Archive -Path pkg_rep/* -DestinationPath BAKR_REPAIR_Windows.zip
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: plugins-v1.${{ github.run_number }}
+          name: Plugins BAKR (Windows VST3) v1.${{ github.run_number }}
+          body: "Dezippe, puis double-clique sur Installer.bat. Ensuite FL Studio > Options > Manage plugins > Find installed plugins."
+          files: |
+            BAKR_VOXMIDI_Windows.zip
+            BAKR_REPAIR_Windows.zip
+          make_latest: false
