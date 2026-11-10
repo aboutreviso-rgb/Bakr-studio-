@@ -1,0 +1,33 @@
+BAKR Studio PRO v2.0 – station de travail musicale pour Android (style Cubase)
+==================================================
+
+INTERFACE (tourne le téléphone à l'horizontale pour la vue complète)
+- Barre de transport : début, -1/+1 mesure, cycle, stop, lecture, enregistrement, métronome,
+  position (mesures + temps), tempo (touche le chiffre pour le taper), annuler / rétablir, export.
+- Fenêtre Projet : pistes Batterie / Instrument / Audio, clips sur la timeline.
+  Outils Sélection (déplacer, redimensionner par le bord droit), Crayon (poser un clip), Gomme.
+  Règle : touche = placer le curseur, glisse = définir le cycle. Magnétisme Mesure / Temps / 1/16, zoom.
+  Clip sélectionné : Éditer, Dupliquer, Supprimer, changer de pattern (A à H), Rendre unique.
+- Lower Zone :
+  * Éditeur : boîte à rythmes (8 sons, kits Afro / Trap-Drill / Amapiano / Reggae, rythmes
+    Afrobeats, Amapiano, Coupé-décalé, Mandingue, Reggae, Trap/Drill), piano roll avec gamme
+    (piano, balafon, kora, guitare, lead, pad, cuivres, orgue, 808, sub, log drum, synth bass),
+    éditeur audio (début, fin, gain, normaliser, couper au curseur).
+  * Inspecteur : nom, couleur, instrument/kit/effet voix BAKR, volume, pan, EQ 3 bandes,
+    compression, saturation, envois reverb/delay.
+  * MixConsole : tranches avec inserts, sends, pan, fader, vumètres, M/S, retours FX Reverb et
+    FX Delay, sortie stéréo avec glue compresseur + limiteur.
+- Enregistrement : arme une piste audio (R), place le curseur, appuie sur ● : décompte 1 mesure
+  puis la prise dure jusqu'à Stop. Casque conseillé. Import mp3/wav sur la piste audio choisie.
+- Export WAV 44,1 kHz (tout le projet, ou seulement la zone de cycle) dans Musique / BAKR Studio.
+Le projet est sauvegardé automatiquement (l'ancien projet est converti).
+
+OBTENIR L'APK (le fichier à installer)
+Option 1 – GitHub (sans rien installer sur un PC) :
+  1. Crée un dépôt sur github.com et envoie tout ce dossier.
+  2. Onglet "Actions" > "Build APK BAKR Studio" : la compilation démarre toute seule (~5 min).
+  3. Télécharge "BAKR_Studio_APK", dézippe, ouvre app-release.apk sur le téléphone
+     (autorise "Installer des applis inconnues").
+Option 2 – Android Studio : Ouvrir ce dossier > Build > Build APK(s).
+
+Android 7.0 minimum. L'appli fonctionne hors ligne.
