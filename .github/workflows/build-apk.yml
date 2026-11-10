@@ -1,5 +1,7 @@
 name: Build APK BAKR Studio
 on: [push, workflow_dispatch]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +16,17 @@ jobs:
           gradle-version: '8.7'
       - name: Compiler l'APK
         run: gradle assembleRelease
+      - name: Renommer
+        run: cp app/build/outputs/apk/release/app-release.apk BAKR_Studio.apk
       - uses: actions/upload-artifact@v4
         with:
           name: BAKR_Studio_APK
-          path: app/build/outputs/apk/release/*.apk
+          path: BAKR_Studio.apk
+      - name: Publier dans les Releases (lien de téléchargement direct)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.0.${{ github.run_number }}
+          name: BAKR Studio Pro v2.0.${{ github.run_number }}
+          body: "Télécharge BAKR_Studio.apk ci-dessous et ouvre-le sur ton téléphone Android."
+          files: BAKR_Studio.apk
+          make_latest: true
