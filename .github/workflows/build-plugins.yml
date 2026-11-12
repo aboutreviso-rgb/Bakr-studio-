@@ -26,6 +26,10 @@ jobs:
         run: |
           cmake -S plugins/HA81A_Coulibaly_Edition -B build_ha -A x64
           cmake --build build_ha --config Release --target HA81A_Coulibaly_Edition_VST3
+      - name: Compiler BAKR GUITAR
+        run: |
+          cmake -S plugins/BAKR_GUITAR -B build_gtr -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_gtr --config Release
       - name: Paquets
         shell: pwsh
         run: |
@@ -44,6 +48,10 @@ jobs:
           Copy-Item -Recurse "build_ha/HA81A_Coulibaly_Edition_artefacts/Release/VST3/HA-81A EQ - Coulibaly Edition.vst3" pkg_ha/
           Copy-Item plugins/HA81A_Coulibaly_Edition/Installer.bat, plugins/HA81A_Coulibaly_Edition/README_FR.md pkg_ha/
           Compress-Archive -Path pkg_ha/* -DestinationPath HA81A_Coulibaly_Edition_Windows.zip
+          New-Item -ItemType Directory -Force pkg_gtr | Out-Null
+          Copy-Item -Recurse "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3" pkg_gtr/
+          Copy-Item plugins/BAKR_GUITAR/Installer.bat, plugins/BAKR_GUITAR/LISEZMOI.txt pkg_gtr/
+          Compress-Archive -Path pkg_gtr/* -DestinationPath BAKR_GUITAR_Windows.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: plugins-v1.${{ github.run_number }}
@@ -54,4 +62,5 @@ jobs:
             BAKR_REPAIR_Windows.zip
             BAKR_81_Windows.zip
             HA81A_Coulibaly_Edition_Windows.zip
+            BAKR_GUITAR_Windows.zip
           make_latest: false

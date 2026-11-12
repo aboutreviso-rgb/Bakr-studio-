@@ -1,0 +1,49 @@
+BAKR GUITAR v1.0 - Guitares acoustiques & électriques (instrument VST3 pour FL Studio)
+==================================================================================
+Guitare par modélisation physique : chaque note fait vibrer une vraie corde simulée
+(médiator, corde, micro, caisse). Aucun échantillon à charger -> « Banque prête » tout de suite.
+
+BIBLIOTHÈQUE (en haut à gauche)
+- AC Acier acoustique  : folk, mandingue, accords grattés.
+- CN Classique nylon   : douce et chaude (amapiano, bossa, rumba).
+- DB Double bobinage   : électrique humbucker, ronde (jazz afro, lead afrobeats, blues, rock).
+- SB Simple bobinage   : électrique claire et brillante (highlife, soukous/sebene, funk, reggae).
+Les cordes sont réparties comme sur une vraie guitare (Mi grave à Mi aigu) : un accord
+joué au clavier sonne comme un accord de guitare.
+
+POTARDS
+Attaque (attaque douce = médiator plus tendre), Relâchement (temps d'étouffement quand
+tu lâches la touche), Brillance, Largeur (étalement stéréo des cordes), Delay, Réverb, Sortie.
+
+ARTICULATIONS (boutons ou keyswitches = touches ROUGES du clavier, C2 à G#2 dans FL Studio)
+C2 Sustain · C#2 Palm mute · D2 Harmoniques · D#2 Hammer-on · E2 Pull-off · F2 Slide
+F#2 Vibrato · G2 Slide up · G#2 Slide down
+- Hammer-on / Pull-off / Slide : joue legato (garde une note enfoncée et appuie la suivante).
+  Lâche la 2e note : on retombe sur la 1re (trilles).
+- Molette Mod = vibrato en plus. Pitch bend = +/- 2 demi-tons.
+
+BRUITS DE GUITARE (touches VERTES, C8 à D#8)
+C8 frottement de corde · C#8 coup sur la caisse · D8 coup étouffé (6 cordes) · D#8 raclement de médiator
+
+CHAÎNE D'EFFETS : Amp, EQ, Comp, Chorus, Delay, Réverb (clique pour activer / couper).
+La roue dentée ouvre les réglages avancés : gain de l'ampli, EQ grave/médium/aigu,
+compression, chorus et temps du delay calé sur le tempo (1/4, 1/8 pointée, 1/8, 1/16, 1/4 pointée).
+
+PERFORMANCE
+- Bruits de main : petits bruits de médiator, de doigts et de frettes (plus réaliste).
+- Jeu en accords > Strum : les accords sont grattés corde par corde comme un vrai guitariste.
+- Sens du coup : Bas, Haut ou Alterné (bas/haut/bas/haut).
+- Espacement : temps entre deux cordes (petit = coup sec, grand = arpège lent).
+  (En mode Strum, l'accord est attendu 22 ms pour être trié : désactive Strum pour les solos.)
+
+PRESETS (16) : Le Jazz Guitar Afro, Highlife Ghana, Soukous Sebene, Afrobeats Lead Nigeria,
+Mandingue Acoustique, Coupé-décalé Rythmique, Reggae Skank, Amapiano Guitare, Rumba Congolaise,
+Folk Acoustique (accords), Nylon Classique, Gratte Alternée, Blues Crunch, Rock Humbucker,
+Funk Simple Bobinage, Ambiance Pad Guitare.
+Bouton « ... » : sauvegarder / charger tes presets (Documents\BAKR\BAKR GUITAR Presets).
+
+La fenêtre se redimensionne (coin en bas à droite).
+
+INSTALLATION : dézippe, double-clique sur Installer.bat, puis
+FL Studio > Options > Manage plugins > Find installed plugins,
+puis Channel rack > + > BAKR GUITAR.
