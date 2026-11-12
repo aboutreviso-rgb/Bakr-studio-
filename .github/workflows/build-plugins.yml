@@ -18,6 +18,10 @@ jobs:
         run: |
           cmake -S plugins/BAKR_REPAIR -B build_rep -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_rep --config Release
+      - name: Compiler BAKR 81
+        run: |
+          cmake -S plugins/BAKR_81 -B build_81 -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_81 --config Release
       - name: Paquets
         shell: pwsh
         run: |
@@ -28,6 +32,10 @@ jobs:
           Copy-Item plugins/BAKR_REPAIR/Installer.bat, plugins/BAKR_REPAIR/LISEZMOI.txt pkg_rep/
           Compress-Archive -Path pkg_vox/* -DestinationPath BAKR_VOXMIDI_Windows.zip
           Compress-Archive -Path pkg_rep/* -DestinationPath BAKR_REPAIR_Windows.zip
+          New-Item -ItemType Directory -Force pkg_81 | Out-Null
+          Copy-Item -Recurse "build_81/BAKR_81_artefacts/Release/VST3/BAKR 81.vst3" pkg_81/
+          Copy-Item plugins/BAKR_81/Installer.bat, plugins/BAKR_81/LISEZMOI.txt pkg_81/
+          Compress-Archive -Path pkg_81/* -DestinationPath BAKR_81_Windows.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: plugins-v1.${{ github.run_number }}
@@ -36,4 +44,5 @@ jobs:
           files: |
             BAKR_VOXMIDI_Windows.zip
             BAKR_REPAIR_Windows.zip
+            BAKR_81_Windows.zip
           make_latest: false

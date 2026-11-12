@@ -1,0 +1,30 @@
+BAKR 81 v1.0 - Préampli + égaliseur de console classe A (VST3 pour FL Studio)
+==========================================================================
+
+RACK (en haut)
+- INPUT (rouge, -20/+20 dB) : pousse le préampli classe A + transformateurs.
+  Plus tu montes, plus il y a de chaleur (harmoniques paires, basses qui s'arrondissent).
+- LF / LMF / HMF / HF : gain de chaque bande (-12/+12 dB).
+- IN (gauche) : active la section basse (LF + LMF). BELL : LF en cloche au lieu de shelf.
+- IN (milieu) : active la section haute (HMF + HF). BELL : HF en cloche au lieu de shelf.
+- OUTPUT (bleu, -20/+20 dB) : niveau de sortie. Baisse-le quand tu montes INPUT.
+- EQ LEVEL : niveau après l'égaliseur. IN : égaliseur actif. PHASE : inverse la polarité.
+- POWER : allume / éteint le plugin (bypass sans clic).
+
+COURBE
+- Glisse les points : gauche/droite = fréquence, haut/bas = gain.
+- Molette sur un point = fréquence. Double-clic sur un point = gain à 0.
+- Vumètres IN / OUT à droite.
+
+BAS : réglages précis LF 20-200 Hz, LMF 200 Hz-2 kHz, HMF 1-10 kHz, HF 5-20 kHz,
+avec les valeurs exactes. Double-clic sur un bouton = retour à la valeur par défaut.
+
+BARRE DU HAUT : A / B (compare deux réglages), 12 presets (Voix Afrobeats, Mandingue,
+Rap/Drill, Reggae, Kick Afro, Log drum Amapiano, Balafon/Kora, Guitare highlife,
+Basse reggae, Bus batterie, Master), Save / Load (Documents\BAKR\BAKR 81 Presets).
+
+Latence : 4 échantillons (quasi nulle) -> utilisable en prise de voix.
+La fenêtre se redimensionne (coin en bas à droite).
+
+INSTALLATION : dézippe, double-clique sur Installer.bat, puis
+FL Studio > Options > Manage plugins > Find installed plugins.
