@@ -1,0 +1,13 @@
+BAKR TUBECOMP - compresseur a lampes variable-mu + mode Opto
+
+INSTALLATION
+1. Dezippe le dossier.
+2. Double-clique sur Installer.bat (accepte la demande administrateur).
+3. FL Studio > Options > Manage plugins > Find installed plugins.
+4. Le plugin apparait dans Effets sous le nom BAKR TUBECOMP.
+
+Installation manuelle : copie le dossier "BAKR TUBECOMP.vst3" dans
+C:\Program Files\Common Files\VST3
+
+SIDE-CHAIN EXTERNE (FL Studio) : dans le Mixer, envoie la piste source vers
+la piste du compresseur avec "Sidechain to this track", puis SOURCE = EXTERNAL.

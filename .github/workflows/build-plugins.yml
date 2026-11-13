@@ -26,6 +26,10 @@ jobs:
         run: |
           cmake -S plugins/HA81A_Coulibaly_Edition -B build_ha -A x64
           cmake --build build_ha --config Release --target HA81A_Coulibaly_Edition_VST3
+      - name: Compiler BAKR TUBECOMP
+        run: |
+          cmake -S plugins/BAKR_TUBECOMP -B build_tc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_tc --config Release --target BAKR_TUBECOMP_VST3
       - name: Paquets
         shell: pwsh
         run: |
@@ -44,6 +48,10 @@ jobs:
           Copy-Item -Recurse "build_ha/HA81A_Coulibaly_Edition_artefacts/Release/VST3/HA-81A EQ - Coulibaly Edition.vst3" pkg_ha/
           Copy-Item plugins/HA81A_Coulibaly_Edition/Installer.bat, plugins/HA81A_Coulibaly_Edition/README_FR.md pkg_ha/
           Compress-Archive -Path pkg_ha/* -DestinationPath HA81A_Coulibaly_Edition_Windows.zip
+          New-Item -ItemType Directory -Force pkg_tc | Out-Null
+          Copy-Item -Recurse "build_tc/BAKR_TUBECOMP_artefacts/Release/VST3/BAKR TUBECOMP.vst3" pkg_tc/
+          Copy-Item plugins/BAKR_TUBECOMP/Installer.bat, plugins/BAKR_TUBECOMP/LISEZMOI.txt pkg_tc/
+          Compress-Archive -Path pkg_tc/* -DestinationPath BAKR_TUBECOMP_Windows.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: plugins-v1.${{ github.run_number }}
@@ -54,4 +62,5 @@ jobs:
             BAKR_REPAIR_Windows.zip
             BAKR_81_Windows.zip
             HA81A_Coulibaly_Edition_Windows.zip
+            BAKR_TUBECOMP_Windows.zip
           make_latest: false
