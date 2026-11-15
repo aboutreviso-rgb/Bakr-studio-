@@ -30,6 +30,10 @@ jobs:
         run: |
           cmake -S plugins/BAKR_TUBECOMP -B build_tc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_tc --config Release --target BAKR_TUBECOMP_VST3
+      - name: Compiler BAKR INFLATE
+        run: |
+          cmake -S plugins/BAKR_INFLATE -B build_inf -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_inf --config Release --target BAKR_INFLATE_VST3
       - name: Paquets
         shell: pwsh
         run: |
@@ -52,6 +56,10 @@ jobs:
           Copy-Item -Recurse "build_tc/BAKR_TUBECOMP_artefacts/Release/VST3/BAKR TUBECOMP.vst3" pkg_tc/
           Copy-Item plugins/BAKR_TUBECOMP/Installer.bat, plugins/BAKR_TUBECOMP/LISEZMOI.txt pkg_tc/
           Compress-Archive -Path pkg_tc/* -DestinationPath BAKR_TUBECOMP_Windows.zip
+          New-Item -ItemType Directory -Force pkg_inf | Out-Null
+          Copy-Item -Recurse "build_inf/BAKR_INFLATE_artefacts/Release/VST3/BAKR INFLATE.vst3" pkg_inf/
+          Copy-Item plugins/BAKR_INFLATE/Installer.bat, plugins/BAKR_INFLATE/LISEZMOI.txt pkg_inf/
+          Compress-Archive -Path pkg_inf/* -DestinationPath BAKR_INFLATE_Windows.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: plugins-v1.${{ github.run_number }}
@@ -63,4 +71,5 @@ jobs:
             BAKR_81_Windows.zip
             HA81A_Coulibaly_Edition_Windows.zip
             BAKR_TUBECOMP_Windows.zip
+            BAKR_INFLATE_Windows.zip
           make_latest: false

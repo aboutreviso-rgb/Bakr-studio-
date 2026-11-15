@@ -1,0 +1,33 @@
+BAKR INFLATE v1.0 - Volume et densité sans compression (VST3 pour FL Studio)
+============================================================================
+Rend un son plus fort, plus plein et plus présent SANS l'écraser comme un compresseur
+ou un limiteur : une courbe douce gonfle les niveaux moyens et arrondit les crêtes.
+Idéal sur le Master, le bus de mix, la batterie, la 808 ou la voix.
+
+ENTRÉE (-6 à +12 dB) : niveau qui attaque l'effet. Plus tu montes, plus ça gonfle.
+EFFET (0 à 100 %)    : dosage entre le son d'origine et le son gonflé.
+COURBE (-50 à +50)   : caractère de la courbe.
+                       0 = neutre · positif = plus de densité / plus fort · négatif = plus doux, plus de dynamique.
+SORTIE (-12 à 0 dB)  : niveau final (baisse-la pour comparer à volume égal).
+Double-clic sur un fader = valeur par défaut.
+
+CLIP 0 dB  : limite le signal à 0 dBFS avant la courbe (recommandé sur le Master).
+             Le voyant OVER s'allume quand l'entrée dépasse 0 dB.
+3 BANDES   : traite séparément graves (< 240 Hz), médiums et aigus (> 2,4 kHz) :
+             le kick et la basse ne font plus « pomper » les aigus.
+EFFET ON   : active / contourne l'effet (les faders Entrée et Sortie restent actifs).
+
+Vumètre « dB » du milieu : gain de volume ajouté par l'effet.
+Graphique : la courbe de transfert en direct (diagonale = son d'origine).
+A / B : deux réglages à comparer.
+Suréchantillonnage x2 intégré (moins d'artefacts dans les aigus), latence 3 échantillons.
+
+PRESETS : Défaut, Master doux, Master fort, Master 3 bandes, Voix présente, Batterie punchy,
+Basse 808 pleine, Beat Afro chaud, Bus de mix (colle), Saturation douce (sans clip).
+
+Astuce Master : Entrée +4 à +6 dB, Effet 50-70 %, Courbe 0 à +50, Clip ON,
+puis Sortie à -0,5 / -1 dB, et un limiteur après si besoin.
+
+INSTALLATION : dézippe, double-clique sur Installer.bat, puis
+FL Studio > Options > Manage plugins > Find installed plugins,
+et charge BAKR INFLATE dans un slot du Mixer.
