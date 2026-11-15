@@ -11,7 +11,7 @@ METHODE 2 (sans assistant) : dézippe BAKR_Suite_Windows.zip
   puis double-clique sur Installer_BAKR_Suite.bat (Desinstaller_BAKR_Suite.bat pour enlever).
 
 Plugins inclus :
-  BAKR GUITAR (instrument) · BAKR INFLATE · BAKR TUBECOMP · BAKR 81
+  BAKR VOXCHAIN · BAKR GUITAR (instrument) · BAKR INFLATE · BAKR TUBECOMP · BAKR 81
   HA-81A EQ - Coulibaly Edition · BAKR REPAIR · BAKR VOXMIDI
 Les notices de chaque plugin sont dans le dossier Notices.
 

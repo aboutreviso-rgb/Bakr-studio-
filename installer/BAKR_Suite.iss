@@ -31,6 +31,7 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
+Name: "voxchain";Description: "BAKR VOXCHAIN - chaine vocale complete (5 modules)"; Types: full
 Name: "guitar";  Description: "BAKR GUITAR - guitares acoustiques et electriques (instrument)"; Types: full
 Name: "inflate"; Description: "BAKR INFLATE - volume et densite sans compression"; Types: full
 Name: "tubecomp";Description: "BAKR TUBECOMP - compresseur a lampes"; Types: full
@@ -40,6 +41,7 @@ Name: "repair";  Description: "BAKR REPAIR - reparation vocale"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
+Source: "..\pkg_suite\VST3\BAKR VOXCHAIN.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR VOXCHAIN.vst3"; Components: voxchain; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR GUITAR.vst3\*";  DestDir: "{commoncf64}\VST3\BAKR GUITAR.vst3";  Components: guitar;  Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR INFLATE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR INFLATE.vst3"; Components: inflate; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR TUBECOMP.vst3\*";DestDir: "{commoncf64}\VST3\BAKR TUBECOMP.vst3";Components: tubecomp;Flags: ignoreversion recursesubdirs createallsubdirs

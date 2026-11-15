@@ -38,6 +38,10 @@ jobs:
         run: |
           cmake -S plugins/BAKR_GUITAR -B build_gtr -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_gtr --config Release --target BAKR_GUITAR_VST3
+      - name: Compiler BAKR VOXCHAIN
+        run: |
+          cmake -S plugins/BAKR_VOXCHAIN -B build_vc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_vc --config Release --target BAKR_VOXCHAIN_VST3
       - name: Paquets
         shell: pwsh
         run: |
@@ -68,6 +72,10 @@ jobs:
           Copy-Item -Recurse "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3" pkg_gtr/
           Copy-Item plugins/BAKR_GUITAR/Installer.bat, plugins/BAKR_GUITAR/LISEZMOI.txt pkg_gtr/
           Compress-Archive -Path pkg_gtr/* -DestinationPath BAKR_GUITAR_Windows.zip
+          New-Item -ItemType Directory -Force pkg_vc | Out-Null
+          Copy-Item -Recurse "build_vc/BAKR_VOXCHAIN_artefacts/Release/VST3/BAKR VOXCHAIN.vst3" pkg_vc/
+          Copy-Item plugins/BAKR_VOXCHAIN/Installer.bat, plugins/BAKR_VOXCHAIN/LISEZMOI.txt pkg_vc/
+          Compress-Archive -Path pkg_vc/* -DestinationPath BAKR_VOXCHAIN_Windows.zip
       - name: BAKR Suite (installateur unique)
         shell: pwsh
         env:
@@ -81,7 +89,8 @@ jobs:
             @{ vst = "build_ha/HA81A_Coulibaly_Edition_artefacts/Release/VST3/HA-81A EQ - Coulibaly Edition.vst3"; doc = "plugins/HA81A_Coulibaly_Edition/README_FR.md"; name = "HA-81A EQ - Coulibaly Edition" },
             @{ vst = "build_tc/BAKR_TUBECOMP_artefacts/Release/VST3/BAKR TUBECOMP.vst3"; doc = "plugins/BAKR_TUBECOMP/LISEZMOI.txt"; name = "BAKR TUBECOMP" },
             @{ vst = "build_inf/BAKR_INFLATE_artefacts/Release/VST3/BAKR INFLATE.vst3"; doc = "plugins/BAKR_INFLATE/LISEZMOI.txt"; name = "BAKR INFLATE" },
-            @{ vst = "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3"; doc = "plugins/BAKR_GUITAR/LISEZMOI.txt"; name = "BAKR GUITAR" }
+            @{ vst = "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3"; doc = "plugins/BAKR_GUITAR/LISEZMOI.txt"; name = "BAKR GUITAR" },
+            @{ vst = "build_vc/BAKR_VOXCHAIN_artefacts/Release/VST3/BAKR VOXCHAIN.vst3"; doc = "plugins/BAKR_VOXCHAIN/LISEZMOI.txt"; name = "BAKR VOXCHAIN" }
           )
           foreach ($it in $items) {
             Copy-Item -Recurse $it.vst pkg_suite/VST3/
@@ -108,6 +117,7 @@ jobs:
             BAKR_TUBECOMP_Windows.zip
             BAKR_INFLATE_Windows.zip
             BAKR_GUITAR_Windows.zip
+            BAKR_VOXCHAIN_Windows.zip
             BAKR_Suite_Setup.exe
             BAKR_Suite_Windows.zip
           make_latest: false
