@@ -130,4 +130,4 @@ jobs:
             BAKR_VOXCHAIN_Windows.zip
             BAKR_Suite_Setup.exe
             BAKR_Suite_Windows.zip
-          make_latest: true
+          make_latest: false
