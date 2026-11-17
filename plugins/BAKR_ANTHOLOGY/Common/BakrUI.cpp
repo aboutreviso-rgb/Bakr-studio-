@@ -77,7 +77,8 @@ void LookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w, int 
     juce::Colour top, bottom, line = juce::Colours::white;
     bool skirt = true, metal = false;
     if      (look == "red")      { top = juce::Colour (0xffd8352c); bottom = juce::Colour (0xff7a120e); }
-    else if (look == "blue")     { top = juce::Colour (0xff3d7fd6); bottom = juce::Colour (0xff12376e); }
+    else if (look == "blue")     { top = juce::Colour (0xff4a90e8); bottom = juce::Colour (0xff163f7c); }
+    else if (look == "teal")     { top = juce::Colour (0xff3fb6b0); bottom = juce::Colour (0xff0d5552); }
     else if (look == "cream")    { top = juce::Colour (0xfff1e6cc); bottom = juce::Colour (0xffb9a982); line = juce::Colour (0xff222222); skirt = false; }
     else if (look == "grey")     { top = juce::Colour (0xff9aa0a8); bottom = juce::Colour (0xff4c5158); line = juce::Colours::white; skirt = false; }
     else if (look == "chrome" || look == "silver") { top = juce::Colour (0xffe1e5ea); bottom = juce::Colour (0xff4a4f57); metal = true; line = look == "silver" ? juce::Colour (0xff1a1a1a) : juce::Colours::white; }
@@ -121,6 +122,43 @@ void LookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w, int 
     idx.addRoundedRectangle (-1.5f, -kr * 0.97f, 3.0f, kr * 0.48f, 1.2f);
     g.setColour (line);
     g.fillPath (idx, juce::AffineTransform::rotation (ang).translated (c.x, c.y));
+}
+
+void LookAndFeel::drawLinearSlider (juce::Graphics& g, int x, int y, int w, int h, float pos, float, float,
+                                    juce::Slider::SliderStyle, juce::Slider& s)
+{
+    const auto tick = juce::Colour::fromString (s.getProperties()["tick"].toString());
+    const F b ((float) x, (float) y, (float) w, (float) h);
+    const float cx = b.getCentreX();
+    // fente
+    g.setColour (juce::Colours::black);
+    g.fillRoundedRectangle (F (cx - 3.0f, b.getY(), 6.0f, b.getHeight()), 3.0f);
+    g.setColour (juce::Colours::white.withAlpha (0.15f));
+    g.drawRoundedRectangle (F (cx - 3.0f, b.getY(), 6.0f, b.getHeight()), 3.0f, 0.8f);
+    // graduations
+    g.setColour (tick.withAlpha (0.7f));
+    for (int i = 0; i <= 10; ++i)
+    {
+        const float yy = b.getY() + b.getHeight() * (float) i / 10.0f;
+        const float len = i % 5 == 0 ? 10.0f : 6.0f;
+        g.drawLine (cx - 14.0f - len, yy, cx - 14.0f, yy, 1.0f);
+        g.drawLine (cx + 14.0f, yy, cx + 14.0f + len, yy, 1.0f);
+    }
+    // capuchon de fader
+    const float capH = 34.0f, capW = 30.0f;
+    const F cap = F (capW, capH).withCentre ({ cx, pos });
+    g.setColour (juce::Colours::black.withAlpha (0.5f));
+    g.fillRoundedRectangle (cap.translated (2, 3), 3.0f);
+    g.setGradientFill (juce::ColourGradient (juce::Colour (0xffe9ecef), cap.getX(), cap.getY(), juce::Colour (0xff6b7077), cap.getX(), cap.getBottom(), false));
+    g.fillRoundedRectangle (cap, 3.0f);
+    for (int i = 1; i < 6; ++i)
+    {
+        const float yy = cap.getY() + cap.getHeight() * (float) i / 6.0f;
+        g.setColour (juce::Colours::black.withAlpha (0.25f));
+        g.drawLine (cap.getX() + 3, yy, cap.getRight() - 3, yy, 0.8f);
+    }
+    g.setColour (juce::Colours::black);
+    g.drawLine (cap.getX() + 2, cap.getCentreY(), cap.getRight() - 2, cap.getCentreY(), 2.0f);
 }
 
 void LookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton& b, bool hl, bool)
@@ -201,8 +239,8 @@ void Meter::tick()
     Src s = spec.src;
     if (s == Src::Selectable && spec.selectParam != nullptr)
     {
-        mode = (int) proc.p (spec.selectParam);
-        s = mode == 0 ? Src::GrMax : (mode == 1 ? Src::InMax : Src::OutMax);
+        sel = (int) proc.p (spec.selectParam);
+        s = sel == 0 ? Src::GrMax : (sel == 1 ? Src::InMax : Src::OutMax);
     }
     const bool gr = (s == Src::GrMax || s == Src::GrL || s == Src::GrR);
     mode = gr ? 0 : 1;
@@ -288,7 +326,7 @@ void Meter::paint (juce::Graphics& g)
     g.setFont (juce::FontOptions (fs * 0.8f, juce::Font::bold));
     g.setColour (ink.withAlpha (0.75f));
     juce::String cap = spec.caption;
-    if (spec.src == Src::Selectable) cap = mode == 0 ? "GAIN REDUCTION" : cap;
+    if (spec.src == Src::Selectable && sel >= 0) cap = sel == 0 ? "GAIN REDUCTION" : (sel == 1 ? "INPUT LEVEL" : "OUTPUT LEVEL");
     g.drawText (cap, face.withTrimmedTop (face.getHeight() * 0.74f).withHeight (fs * 1.2f), juce::Justification::centred);
 
     const float a = angleFor (juce::jlimit (-22.0f, 4.0f, val));
@@ -310,7 +348,19 @@ Panel::Panel (BaseProcessor& p, UiSpec s) : proc (p), spec (std::move (s))
     {
         auto it = std::make_unique<Item>();
         it->spec = cs;
-        if (cs.type == Ctl::Knob || cs.type == Ctl::Selector)
+        if (cs.type == Ctl::Fader)
+        {
+            it->slider = std::make_unique<juce::Slider> (juce::Slider::LinearVertical, juce::Slider::NoTextBox);
+            auto& sl = *it->slider;
+            sl.getProperties().set ("tick", (cs.labelColour.getAlpha() > 0 ? cs.labelColour : spec.theme.text).toString());
+            sl.setPopupDisplayEnabled (true, true, this);
+            sl.setBounds (juce::Rectangle<float> (70.0f, cs.size).withCentre ({ cs.x, cs.y }).toNearestInt());
+            if (auto* prm = proc.apvts.getParameter (cs.id))
+                sl.setDoubleClickReturnValue (true, proc.apvts.getParameterRange (cs.id).convertFrom0to1 (prm->getDefaultValue()));
+            addAndMakeVisible (sl);
+            it->sAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (proc.apvts, cs.id, sl);
+        }
+        else if (cs.type == Ctl::Knob || cs.type == Ctl::Selector)
         {
             it->slider = std::make_unique<juce::Slider> (juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::NoTextBox);
             auto& sl = *it->slider;
@@ -403,10 +453,52 @@ void Panel::buildBackground()
     {
         const F r (bx.x, bx.y, bx.w, bx.h);
         g.setColour (bx.fill); g.fillRoundedRectangle (r, bx.radius);
+        if (bx.deco == 1)
+        {
+            juce::Graphics::ScopedSaveState clip (g);
+            g.reduceClipRegion (r.reduced (2.0f).toNearestInt());
+            // lampes en verre avec filament orange
+            const int nT = juce::jmax (2, (int) (r.getWidth() / 62.0f));
+            const float tw = r.getWidth() / (float) nT;
+            for (int i = 0; i < nT; ++i)
+            {
+                auto tb = F (r.getX() + tw * (float) i, r.getY(), tw, r.getHeight()).reduced (tw * 0.18f, 6.0f);
+                g.setGradientFill (juce::ColourGradient (juce::Colour (0x88ff8a2a), tb.getCentreX(), tb.getBottom() - tb.getHeight() * 0.25f,
+                                                         juce::Colour (0x00ff8a2a), tb.getCentreX(), tb.getY() - 10, true));
+                g.fillEllipse (tb.expanded (tw * 0.25f, 0.0f));
+                g.setGradientFill (juce::ColourGradient (juce::Colours::white.withAlpha (0.28f), tb.getX(), tb.getY(),
+                                                         juce::Colours::white.withAlpha (0.04f), tb.getRight(), tb.getY(), false));
+                g.fillRoundedRectangle (tb, tb.getWidth() * 0.45f);
+                auto plate = tb.reduced (tb.getWidth() * 0.28f, tb.getHeight() * 0.22f);
+                g.setColour (juce::Colour (0xff5d5a55)); g.fillRect (plate);
+                g.setColour (juce::Colour (0xff2b2926)); g.drawRect (plate, 1.0f);
+                g.setColour (juce::Colour (0xffffa040));
+                g.fillRect (plate.withSizeKeepingCentre (2.5f, plate.getHeight() * 0.8f));
+                g.setColour (juce::Colours::white.withAlpha (0.35f));
+                g.drawRoundedRectangle (tb, tb.getWidth() * 0.45f, 1.0f);
+                g.setColour (juce::Colour (0xff1c1a17));
+                g.fillRect (tb.withTop (tb.getBottom() - 8.0f).expanded (3.0f, 0.0f));
+            }
+        }
+        if (bx.deco == 2)
+        {
+            g.setGradientFill (juce::ColourGradient (juce::Colour (0xff1f5fc8), r.getX(), r.getY(), juce::Colour (0xff0d2f74), r.getX(), r.getBottom(), false));
+            g.fillRoundedRectangle (r.reduced (2.0f), bx.radius);
+        }
         g.setColour (bx.line); g.drawRoundedRectangle (r, bx.radius, 1.2f);
     }
     for (auto& tx : spec.texts)
-        shadowText (g, tx.text, { tx.x, tx.y, tx.w, tx.h }, tx.size, tx.colour, tx.bold, tx.italic, tx.just);
+    {
+        if (tx.vertical)
+        {
+            juce::Graphics::ScopedSaveState ss (g);
+            const P c (tx.x + tx.w * 0.5f, tx.y + tx.h * 0.5f);
+            g.addTransform (juce::AffineTransform::rotation (-juce::MathConstants<float>::halfPi, c.x, c.y));
+            shadowText (g, tx.text, F (tx.h, tx.w).withCentre (c), tx.size, tx.colour, tx.bold, tx.italic, tx.just);
+        }
+        else
+            shadowText (g, tx.text, { tx.x, tx.y, tx.w, tx.h }, tx.size, tx.colour, tx.bold, tx.italic, tx.just);
+    }
 }
 
 void Panel::drawItemText (juce::Graphics& g, const Item& it)
@@ -419,6 +511,13 @@ void Panel::drawItemText (juce::Graphics& g, const Item& it)
     const juce::Colour dim = custom ? cs.labelColour.withAlpha (0.75f) : t.dim;
     const juce::Colour acc = custom ? cs.labelColour.contrasting (0.0f).interpolatedWith (juce::Colour (0xffb01c10), 0.85f) : t.accent;
 
+    if (cs.type == Ctl::Fader)
+    {
+        shadowText (g, cs.label, F (cs.x - 60, cs.y - cs.size * 0.5f - 34, 120, 16), 13.0f, txt);
+        shadowText (g, cs.maxTxt, F (cs.x + 24, cs.y - cs.size * 0.5f + 8, 40, 12), 10.0f, dim, true, false, juce::Justification::centredLeft);
+        shadowText (g, cs.minTxt, F (cs.x + 24, cs.y + cs.size * 0.5f - 22, 40, 12), 10.0f, dim, true, false, juce::Justification::centredLeft);
+        return;
+    }
     const float R = cs.size * 0.5f;
     const float gap = cs.labelGap != 0.0f ? cs.labelGap : (cs.type == Ctl::Selector && cs.marks.size() > 2 ? R + 34.0f : R + 16.0f);
     if (cs.label.isNotEmpty())

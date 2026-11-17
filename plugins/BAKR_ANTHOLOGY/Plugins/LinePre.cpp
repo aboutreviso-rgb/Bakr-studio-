@@ -88,7 +88,8 @@ public:
         u.theme = { juce::Colour (0xff2a2b2e), juce::Colour (0xff121315), txt, dim, acc };
         const auto box = juce::Colour (0x26000000), line = juce::Colour (0x30ffffff);
         u.boxes = { { 46, 34, 300, 150, box, line }, { 46, 194, 300, 154, box, line },
-                    { 356, 34, 600, 314, box, line } };
+                    { 356, 34, 600, 314, box, line }
+                  };
         u.texts = {
             { "BAKR", 60, 44, 150, 34, 30, txt, true, true },
             { "LINE PRE", 60, 76, 150, 18, 14, acc, true, false, juce::Justification::centredLeft },

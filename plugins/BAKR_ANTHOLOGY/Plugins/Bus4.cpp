@@ -93,31 +93,36 @@ public:
     {
         UiSpec u;
         u.w = 1000; u.h = 340;
-        const auto txt = juce::Colour (0xfff2f2f0), dim = juce::Colour (0xffd2d4d6), acc = juce::Colour (0xffffffff);
-        u.theme = { juce::Colour (0xff7d8186), juce::Colour (0xff5c6065), txt, dim, acc };
-        u.boxes = { { 46, 34, 190, 90, juce::Colour (0x22000000), juce::Colour (0x40ffffff) },
-                    { 520, 34, 446, 292, juce::Colour (0x18000000), juce::Colour (0x30ffffff) } };
+        const auto txt = juce::Colour (0xff26292c), dim = juce::Colour (0xff4b4e52), acc = juce::Colour (0xffc8261c);
+        u.theme = { juce::Colour (0xffc9c7c0), juce::Colour (0xffa7a49c), txt, dim, acc };
+        u.theme.earColour = juce::Colour (0xff8e8c86);
+        u.boxes = { { 96, 22, 214, 300, juce::Colour (0x14000000), juce::Colour (0x40000000) },
+                    { 326, 22, 520, 300, juce::Colour (0x10000000), juce::Colour (0x40000000) },
+                    { 856, 22, 110, 300, juce::Colour (0x14000000), juce::Colour (0x40000000) } };
         u.texts = {
-            { "BAKR", 46, 38, 190, 40, 36, txt, true, true },
-            { "BUS 4", 46, 78, 190, 22, 18, juce::Colour (0xffff4a3d) },
-            { "console bus compressor", 46, 100, 190, 16, 11, dim, false, true },
-            { "BUS COMPRESSOR", 262, 300, 246, 18, 12, txt },
+            { "BUS 4", 38, 20, 56, 300, 46, juce::Colour (0xff6f6d67), false, false, juce::Justification::centred, true },
+            { "BAKR", 856, 36, 110, 34, 28, txt, true, true },
+            { "BUS 4", 856, 68, 110, 18, 14, acc },
+            { "console bus", 856, 86, 110, 14, 10, dim, false, true },
+            { "compressor", 856, 100, 110, 14, 10, dim, false, true },
+            { "OUT", 98, 210, 32, 14, 10, dim },
         };
-        const auto red = juce::Colour (0xffff3b2f), white = juce::Colour (0xfff7f3d8);
+        const auto red = juce::Colour (0xffff3b2f), white = juce::Colour (0xfffff6d6);
         u.controls = {
-            { Ctl::Knob, "trim", "PRE TRIM", 140, 255, 66, "red", {}, "-12", "+24" },
-            { Ctl::Button, "in", "IN", 315, 235, 62, "", {}, {}, {}, red },
-            { Ctl::Button, "color", "COLOR", 405, 235, 62, "", {}, {}, {}, white },
-            { Ctl::Knob, "thr", "THRESHOLD", 600, 112, 76, "grey", {}, "-30", "+6" },
-            { Ctl::Knob, "makeup", "MAKEUP", 735, 112, 64, "grey", {}, "0", "+20" },
-            { Ctl::Selector, "ratio", "RATIO", 875, 112, 50, "grey", { "2", "4", "10" } },
-            { Ctl::Selector, "att", "ATTACK", 585, 262, 50, "grey", { ".1", ".3", "1", "3", "10", "30" } },
-            { Ctl::Selector, "rel", "RELEASE", 712, 262, 50, "grey", { ".1", ".3", ".6", "1.2", "A" } },
-            { Ctl::Selector, "schpf", "S/C HPF", 832, 262, 46, "grey", { "OFF", "60", "90", "150", "250" } },
-            { Ctl::Knob, "mix", "MIX", 925, 262, 40, "grey", {}, "", "" },
+            { Ctl::Button, "in", "IN", 160, 176, 50, "", {}, {}, {}, red },
+            { Ctl::Button, "color", "COLOR", 240, 176, 50, "", {}, {}, {}, white },
+            { Ctl::Knob, "trim", "PRE TRIM", 203, 285, 56, "red", {}, "-12", "+24" },
+            { Ctl::Knob, "thr", "THRESHOLD", 410, 112, 80, "grey", {}, "-30", "+6" },
+            { Ctl::Knob, "makeup", "MAKEUP", 545, 112, 64, "grey", {}, "0", "+20" },
+            { Ctl::Selector, "ratio", "RATIO", 680, 112, 50, "grey", { "2", "4", "10" } },
+            { Ctl::Knob, "mix", "MIX", 790, 112, 46, "grey", {}, "DRY", "WET" },
+            { Ctl::Selector, "att", "ATTACK", 410, 262, 50, "grey", { ".1", ".3", "1", "3", "10", "30" } },
+            { Ctl::Selector, "rel", "RELEASE", 545, 262, 50, "grey", { ".1", ".3", ".6", "1.2", "A" } },
+            { Ctl::Selector, "schpf", "S/C HPF", 680, 262, 46, "grey", { "OFF", "60", "90", "150", "250" } },
         };
-        u.meters = { { 270, 32, 230, 156, Src::GrMax, "COMPRESSION", "white" } };
-        u.presetArea = { 52, 140, 178, 24 };
+        u.meters = { { 106, 30, 194, 118, Src::GrMax, "COMPRESSION", "white" },
+                     { 128, 208, 176, 18, Src::OutMax, "", "led" } };
+        u.presetArea = { 858, 130, 106, 24 };
         return new Editor (*this, u);
     }
 

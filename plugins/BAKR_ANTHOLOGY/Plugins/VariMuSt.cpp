@@ -110,30 +110,30 @@ public:
         UiSpec u;
         u.w = 1150; u.h = 440;
         const auto txt = juce::Colour (0xfff0eee8), dim = juce::Colour (0xffc5c3bc), acc = juce::Colour (0xffffc14d);
-        u.theme = { juce::Colour (0xff7a7e82), juce::Colour (0xff505458), txt, dim, acc };
+        u.theme = { juce::Colour (0xff6f7377), juce::Colour (0xff3a3d41), txt, dim, acc };
         u.boxes = {
-            { 450, 36, 250, 200, juce::Colour (0xff1b1712), juce::Colour (0xff9a9690), 10.0f },
-            { 470, 150, 210, 70, juce::Colour (0x33ff9d2e), juce::Colour (0x00000000), 30.0f },
+            { 450, 30, 250, 220, juce::Colour (0xff1b1712), juce::Colour (0xff9a9690), 10.0f },
+            { 462, 142, 226, 100, juce::Colour (0xff120f0b), juce::Colour (0x30ffffff), 6.0f, 1 },
             { 70, 262, 360, 162, juce::Colour (0x22000000), juce::Colour (0x40ffffff) },
             { 720, 262, 360, 162, juce::Colour (0x22000000), juce::Colour (0x40ffffff) },
         };
         u.texts = {
-            { "BAKR", 450, 44, 250, 34, 30, txt, true, true },
-            { "VARIMU ST", 450, 76, 250, 18, 14, acc },
-            { "stereo tube limiting amplifier", 450, 94, 250, 14, 10, dim, false, true },
+            { "BAKR", 450, 36, 250, 34, 30, txt, true, true },
+            { "VARIMU ST", 450, 68, 250, 18, 14, acc },
+            { "stereo tube limiting amplifier", 450, 86, 250, 14, 10, dim, false, true },
             { "LEFT  /  MID", 70, 266, 360, 16, 12, acc }, { "RIGHT  /  SIDE", 720, 266, 360, 16, 12, acc },
             { "L / M", 90, 24, 300, 14, 11, txt }, { "R / S", 760, 24, 300, 14, 11, txt },
         };
         u.controls = {
-            { Ctl::Knob, "color", "COLOR", 575, 190, 44, "bakelite", {}, "CLEAN", "HOT" },
 
             { Ctl::Knob, "inL", "INPUT", 140, 350, 66, "black", {}, "-10", "+20" },
             { Ctl::Knob, "thrL", "THRESHOLD", 250, 350, 66, "black", {}, "-40", "0" },
             { Ctl::Selector, "tcL", "TIME CONST", 365, 352, 48, "black", { "1", "2", "3", "4", "5", "6" } },
 
-            { Ctl::Selector, "mode", "MODE", 500, 330, 46, "black", { "L/R", "LINK", "M/S" } },
-            { Ctl::Knob, "out", "OUTPUT", 585, 330, 50, "black", {}, "-20", "+20" },
-            { Ctl::Knob, "mix", "MIX", 668, 330, 46, "black", {}, "DRY", "WET" },
+            { Ctl::Selector, "mode", "MODE", 515, 318, 44, "black", { "L/R", "LINK", "M/S" } },
+            { Ctl::Knob, "color", "COLOR", 635, 318, 44, "bakelite", {}, "CLEAN", "HOT" },
+            { Ctl::Knob, "out", "OUTPUT", 535, 398, 40, "black", {}, "-20", "+20" },
+            { Ctl::Knob, "mix", "MIX", 615, 398, 40, "black", {}, "DRY", "WET" },
 
             { Ctl::Knob, "inR", "INPUT", 790, 350, 66, "black", {}, "-10", "+20" },
             { Ctl::Knob, "thrR", "THRESHOLD", 900, 350, 66, "black", {}, "-40", "0" },
@@ -141,7 +141,7 @@ public:
         };
         u.meters = { { 90, 40, 300, 192, Src::GrL, "GAIN REDUCTION", "cream" },
                      { 760, 40, 300, 192, Src::GrR, "GAIN REDUCTION", "cream" } };
-        u.presetArea = { 480, 114, 190, 22 };
+        u.presetArea = { 480, 108, 190, 24 };
         return new Editor (*this, u);
     }
 

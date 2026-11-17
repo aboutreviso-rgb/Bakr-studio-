@@ -4,7 +4,7 @@
 
 namespace bakr
 {
-    enum class Ctl { Knob, Selector, Button, Lamp, Lever };
+    enum class Ctl { Knob, Selector, Button, Lamp, Lever, Fader };
     enum class Src { GrMax, GrL, GrR, InMax, OutMax, InL, InR, OutL, OutR, Selectable };
 
     struct ControlSpec
@@ -37,6 +37,7 @@ namespace bakr
         juce::Colour colour;
         bool bold = true, italic = false;
         juce::Justification just = juce::Justification::centred;
+        bool vertical = false;
     };
 
     struct BoxSpec
@@ -44,6 +45,7 @@ namespace bakr
         float x, y, w, h;
         juce::Colour fill, line;
         float radius = 6.0f;
+        int deco = 0;   // 1 = lampes en verre, 2 = afficheur LCD bleu
     };
 
     struct Theme
@@ -72,6 +74,8 @@ namespace bakr
         LookAndFeel();
         void drawRotarySlider (juce::Graphics&, int, int, int, int, float, float, float, juce::Slider&) override;
         void drawToggleButton (juce::Graphics&, juce::ToggleButton&, bool, bool) override;
+        void drawLinearSlider (juce::Graphics&, int, int, int, int, float, float, float,
+                               juce::Slider::SliderStyle, juce::Slider&) override;
     };
 
     class Meter : public juce::Component
@@ -85,7 +89,7 @@ namespace bakr
         BaseProcessor& proc;
         MeterSpec spec;
         float val = -20.0f, val2 = -60.0f, peak = -60.0f;
-        int mode = 0;
+        int mode = 0, sel = -1;
     };
 
     class Panel : public juce::Component

@@ -32,6 +32,7 @@ public:
         addFloat (l, "makeup", "Makeup", 0, 20, 0, "dB");
         addFloat (l, "out", "Output", -24, 24, 0, "dB");
         addFloat (l, "mix", "Mix", 0, 100, 100, "%", 0, 0);
+        addChoice (l, "meter", "Meter", { "GR", "Input", "Output" }, 1);
         return l;
     }
 
@@ -135,51 +136,60 @@ public:
     juce::AudioProcessorEditor* createEditor() override
     {
         UiSpec u;
-        u.w = 1200; u.h = 420;
-        const auto gold = juce::Colour (0xffe1b65a), txt = juce::Colour (0xffe9e4d8);
-        u.theme = { juce::Colour (0xff35373b), juce::Colour (0xff1c1d20), txt, juce::Colour (0xffa29d92), gold };
-        const auto box = juce::Colour (0x33000000), line = juce::Colour (0x44e1b65a);
-        u.boxes = { { 48, 110, 190, 292, box, line }, { 248, 110, 472, 292, box, line },
-                    { 730, 110, 250, 292, box, line }, { 990, 110, 172, 292, box, line } };
+        u.w = 1200; u.h = 440;
+        const auto gold = juce::Colour (0xffe1b65a), txt = juce::Colour (0xffe9e4d8), dim = juce::Colour (0xff9f9a90);
+        u.theme = { juce::Colour (0xff2b2c2f), juce::Colour (0xff141517), txt, dim, gold };
+        const auto box = juce::Colour (0x30000000), line = juce::Colour (0x40ffffff);
+        u.boxes = {
+            { 48, 120, 190, 302, box, line }, { 248, 120, 372, 302, box, line }, { 630, 120, 232, 302, box, line },
+            { 872, 30, 294, 130, juce::Colour (0x40000000), line },
+            { 872, 170, 294, 252, box, line },
+            // bandeaux "MODEL" de chaque module
+            { 60, 128, 166, 22, juce::Colour (0xff3a3c40), juce::Colour (0x30ffffff), 3.0f },
+            { 260, 128, 348, 22, juce::Colour (0xff3a3c40), juce::Colour (0x30ffffff), 3.0f },
+            { 642, 128, 208, 22, juce::Colour (0xff3a3c40), juce::Colour (0x30ffffff), 3.0f },
+        };
         u.texts = {
-            { "BAKR", 470, 34, 260, 36, 32, gold, true, true },
-            { "KARAT STRIP", 470, 68, 260, 18, 13, txt },
-            { "ANALOG CONSOLE ANTHOLOGY", 470, 86, 260, 14, 9, juce::Colour (0xffa29d92) },
-            { "PREAMP", 48, 114, 190, 16, 12, gold }, { "EQUALIZER", 248, 114, 472, 16, 12, gold },
-            { "COMPRESSOR", 730, 114, 250, 16, 12, gold }, { "METERS", 990, 114, 172, 16, 12, gold },
+            { "BAKR", 430, 30, 220, 40, 34, gold, true, true },
+            { "KARAT STRIP", 430, 68, 220, 18, 13, txt },
+            { "analog console anthology", 430, 86, 220, 14, 10, dim, false, true },
+            { "PREAMP", 60, 128, 166, 22, 12, txt }, { "EQUALIZER", 260, 128, 348, 22, 12, txt },
+            { "COMPRESSOR", 642, 128, 208, 22, 12, txt },
+            { "STRIP", 60, 30, 200, 14, 10, dim },
         };
-        const auto lit = gold;
+        const auto lit = juce::Colour (0xffff4a2e);
         u.controls = {
-            { Ctl::Button, "preOn", "PRE", 85, 62, 54, "", {}, {}, {}, lit },
-            { Ctl::Button, "eqOn", "EQ", 150, 62, 54, "", {}, {}, {}, lit },
-            { Ctl::Button, "compOn", "COMP", 215, 62, 54, "", {}, {}, {}, lit },
-            { Ctl::Knob, "trim", "INPUT TRIM", 360, 66, 50, "black", {}, "-24", "+24" },
-            { Ctl::Selector, "model", "MODEL", 800, 86, 40, "black", { "BRIT", "PUNCH", "CLEAN" }, {}, {}, juce::Colour (0xffff3b2f), 54.0f },
-            { Ctl::Knob, "out", "OUTPUT", 920, 66, 50, "black", {}, "-24", "+24" },
+            { Ctl::Button, "preOn", "PRE", 95, 66, 54, "", {}, {}, {}, lit },
+            { Ctl::Button, "eqOn", "EQ", 160, 66, 54, "", {}, {}, {}, lit },
+            { Ctl::Button, "compOn", "COMP", 225, 66, 54, "", {}, {}, {}, lit },
+            { Ctl::Knob, "trim", "INPUT TRIM", 340, 70, 54, "black", {}, "-24", "+24" },
+            { Ctl::Selector, "model", "MODEL", 735, 86, 40, "black", { "BRIT", "PUNCH", "CLEAN" }, {}, {}, lit, 54.0f },
 
-            { Ctl::Knob, "drive", "DRIVE", 143, 205, 76, "chrome", {}, "0", "MAX" },
-            { Ctl::Selector, "hpf", "HIGH PASS", 143, 340, 46, "black", { "OFF", "40", "80", "120", "200", "300" } },
+            { Ctl::Knob, "drive", "DRIVE", 143, 220, 72, "chrome", {}, "0", "MAX" },
+            { Ctl::Selector, "hpf", "HIGH PASS", 143, 355, 46, "black", { "OFF", "40", "80", "120", "200", "300" } },
 
-            { Ctl::Knob, "lfG", "LF GAIN", 310, 205, 60, "red", {}, "-15", "+15" },
-            { Ctl::Selector, "lfF", "LF FREQ", 310, 340, 44, "blue", { "35", "60", "110", "220" } },
-            { Ctl::Knob, "mfG", "MF GAIN", 430, 205, 60, "red", {}, "-15", "+15" },
-            { Ctl::Knob, "mfF", "MF FREQ", 430, 340, 44, "blue", {}, "200", "8K" },
-            { Ctl::Selector, "mfQ", "MF Q", 545, 272, 38, "black", { "WIDE", "NARR" } },
-            { Ctl::Knob, "hfG", "HF GAIN", 655, 205, 60, "red", {}, "-15", "+15" },
-            { Ctl::Selector, "hfF", "HF FREQ", 655, 340, 44, "blue", { "8K", "12K", "16K" } },
+            { Ctl::Knob, "lfG", "LF", 300, 220, 58, "red", {}, "-15", "+15" },
+            { Ctl::Selector, "lfF", "FREQ", 300, 355, 44, "teal", { "35", "60", "110", "220" } },
+            { Ctl::Knob, "mfG", "MID", 410, 220, 58, "red", {}, "-15", "+15" },
+            { Ctl::Knob, "mfF", "FREQ", 410, 355, 44, "teal", {}, "200", "8K" },
+            { Ctl::Selector, "mfQ", "Q", 487, 290, 34, "black", { "WIDE", "NARR" } },
+            { Ctl::Knob, "hfG", "HF", 565, 220, 58, "red", {}, "-15", "+15" },
+            { Ctl::Selector, "hfF", "FREQ", 565, 355, 44, "teal", { "8K", "12K", "16K" } },
 
-            { Ctl::Knob, "thr", "THRESHOLD", 795, 205, 60, "black", {}, "-40", "0" },
-            { Ctl::Selector, "ratio", "RATIO", 912, 205, 46, "black", { "1.5", "2", "3", "4", "6", "10" } },
-            { Ctl::Knob, "att", "ATTACK", 795, 340, 46, "black", {}, ".3", "80" },
-            { Ctl::Knob, "rel", "RELEASE", 912, 340, 46, "black", {}, "50", "1.5s" },
-            { Ctl::Button, "auto", "AUTO", 855, 278, 46, "", {}, {}, {}, lit },
+            { Ctl::Knob, "thr", "THRESHOLD", 690, 220, 58, "black", {}, "-40", "0" },
+            { Ctl::Selector, "ratio", "RATIO", 805, 220, 44, "black", { "1.5", "2", "3", "4", "6", "10" } },
+            { Ctl::Knob, "att", "ATTACK", 690, 355, 44, "black", {}, ".3", "80" },
+            { Ctl::Knob, "rel", "RELEASE", 805, 355, 44, "black", {}, "50", "1.5s" },
+            { Ctl::Button, "auto", "AUTO", 748, 292, 44, "", {}, {}, {}, gold },
 
-            { Ctl::Knob, "makeup", "MAKEUP", 1035, 360, 42, "black", {}, "0", "+20" },
-            { Ctl::Knob, "mix", "MIX", 1118, 360, 42, "black", {}, "DRY", "WET" },
+            { Ctl::Selector, "meter", "METER", 930, 250, 40, "black", { "GR", "IN", "OUT" } },
+            { Ctl::Knob, "makeup", "MAKEUP", 930, 345, 44, "black", {}, "0", "+20" },
+            { Ctl::Knob, "mix", "MIX", 1020, 345, 44, "black", {}, "DRY", "WET" },
+            { Ctl::Fader, "out", "OUTPUT", 1110, 300, 200, "", {}, "-24", "+24" },
         };
-        u.meters = { { 1000, 136, 152, 92, Src::GrMax, "COMP GR", "cream" },
-                     { 1000, 236, 152, 92, Src::OutMax, "OUTPUT", "cream" } };
-        u.presetArea = { 990, 52, 172, 24 };
+        u.meters = { { 880, 38, 138, 114, Src::Selectable, "INPUT LEVEL", "cream", "meter" },
+                     { 1022, 38, 138, 114, Src::OutMax, "OUTPUT LEVEL", "cream" } };
+        u.presetArea = { 905, 182, 140, 22 };
         return new Editor (*this, u);
     }
 

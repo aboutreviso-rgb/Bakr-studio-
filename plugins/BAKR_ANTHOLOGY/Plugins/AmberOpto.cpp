@@ -94,9 +94,9 @@ public:
     {
         UiSpec u;
         u.w = 1000; u.h = 360;
-        u.theme = { juce::Colour (0xff56707a), juce::Colour (0xff3c525b), juce::Colour (0xfff3ead2), juce::Colour (0xffc9c2ae), juce::Colour (0xffffd34a) };
+        u.theme = { juce::Colour (0xff3f5f6b), juce::Colour (0xff2b434c), juce::Colour (0xfff3ead2), juce::Colour (0xffc9c2ae), juce::Colour (0xffffd34a) };
         const auto cream = juce::Colour (0xfff3ead2), ink = juce::Colour (0xff2b2416);
-        u.boxes = { { 34, 238, 932, 122, juce::Colour (0xffd9b13b), juce::Colour (0xff8d6f1e), 0.0f },
+        u.boxes = { { 34, 238, 932, 122, juce::Colour (0xffd8b546), juce::Colour (0xff8d6f1e), 0.0f },
                     { 760, 40, 190, 92, juce::Colour (0x22000000), juce::Colour (0x55ffffff), 6.0f } };
         u.texts = {
             { "BAKR", 760, 44, 190, 40, 34, cream, true, true },
