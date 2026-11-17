@@ -30,6 +30,11 @@ jobs:
         run: |
           cmake -S plugins/BAKR_TUBECOMP -B build_tc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_tc --config Release --target BAKR_TUBECOMP_VST3
+      - name: Installateur BAKR TUBECOMP (Setup.exe)
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" plugins/BAKR_TUBECOMP/Setup.iss
       - name: Paquets
         shell: pwsh
         run: |
@@ -63,4 +68,5 @@ jobs:
             BAKR_81_Windows.zip
             HA81A_Coulibaly_Edition_Windows.zip
             BAKR_TUBECOMP_Windows.zip
+            BAKR_TUBECOMP_Setup.exe
           make_latest: false
