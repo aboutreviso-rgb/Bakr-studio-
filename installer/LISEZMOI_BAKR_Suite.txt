@@ -1,0 +1,19 @@
+BAKR SUITE - tous les plugins BAKR en une seule installation (Windows 10 / 11, 64 bits)
+====================================================================================
+METHODE 1 (conseillée) : double-clique sur BAKR_Suite_Setup.exe
+  -> assistant en français, tu peux cocher / décocher chaque plugin,
+     désinstallation propre dans Paramètres > Applications.
+  Si Windows affiche « Windows a protégé votre ordinateur » :
+  clique sur « Informations complémentaires » puis « Exécuter quand même »
+  (l'installateur n'est pas signé, c'est normal pour un logiciel maison).
+
+METHODE 2 (sans assistant) : dézippe BAKR_Suite_Windows.zip
+  puis double-clique sur Installer_BAKR_Suite.bat (Desinstaller_BAKR_Suite.bat pour enlever).
+
+Plugins inclus :
+  BAKR VOXCHAIN · BAKR GUITAR (instrument) · BAKR INFLATE · BAKR TUBECOMP · BAKR 81
+  HA-81A EQ - Coulibaly Edition · BAKR REPAIR · BAKR VOXMIDI
+Les notices de chaque plugin sont dans le dossier Notices.
+
+Tout s'installe dans C:\Program Files\Common Files\VST3.
+Ensuite dans FL Studio : Options > Manage plugins > Find installed plugins.

@@ -1,0 +1,10 @@
+BAKR ANTHOLOGY - 6 plugins VST3
+
+- BAKR AMBER OPTO : compresseur opto a lampes
+- BAKR KARAT STRIP : tranche console (preampli + EQ + compresseur, 3 modeles)
+- BAKR VARIMU ST : compresseur stereo a lampes variable-mu (L/R, Link, M/S)
+- BAKR BUS4 : compresseur de bus de console
+- BAKR LINE PRE : preampli classe A + EQ
+- BAKR BLUE COMP : compresseur VCA
+
+Dans FL Studio : Options > Manage plugins > Find installed plugins.

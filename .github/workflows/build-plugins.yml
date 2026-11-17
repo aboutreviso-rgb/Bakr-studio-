@@ -1,7 +1,7 @@
 name: Build plugins VST3 (Windows)
 on:
   push:
-    paths: ['plugins/**', '.github/workflows/build-plugins.yml']
+    paths: ['plugins/**', 'installer/**', '.github/workflows/build-plugins.yml']
   workflow_dispatch:
 permissions:
   contents: write
@@ -30,20 +30,22 @@ jobs:
         run: |
           cmake -S plugins/BAKR_TUBECOMP -B build_tc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_tc --config Release --target BAKR_TUBECOMP_VST3
+      - name: Compiler BAKR INFLATE
+        run: |
+          cmake -S plugins/BAKR_INFLATE -B build_inf -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_inf --config Release --target BAKR_INFLATE_VST3
+      - name: Compiler BAKR GUITAR
+        run: |
+          cmake -S plugins/BAKR_GUITAR -B build_gtr -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_gtr --config Release --target BAKR_GUITAR_VST3
+      - name: Compiler BAKR VOXCHAIN
+        run: |
+          cmake -S plugins/BAKR_VOXCHAIN -B build_vc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_vc --config Release --target BAKR_VOXCHAIN_VST3
       - name: Compiler BAKR ANTHOLOGY (6 plugins)
         run: |
           cmake -S plugins/BAKR_ANTHOLOGY -B build_anth -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_anth --config Release --parallel
-      - name: Installateur BAKR ANTHOLOGY (Setup.exe)
-        shell: pwsh
-        run: |
-          if (-not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" plugins/BAKR_ANTHOLOGY/Installer/Setup.iss
-      - name: Installateur BAKR TUBECOMP (Setup.exe)
-        shell: pwsh
-        run: |
-          if (-not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" plugins/BAKR_TUBECOMP/Setup.iss
       - name: Paquets
         shell: pwsh
         run: |
@@ -66,17 +68,66 @@ jobs:
           Copy-Item -Recurse "build_tc/BAKR_TUBECOMP_artefacts/Release/VST3/BAKR TUBECOMP.vst3" pkg_tc/
           Copy-Item plugins/BAKR_TUBECOMP/Installer.bat, plugins/BAKR_TUBECOMP/LISEZMOI.txt pkg_tc/
           Compress-Archive -Path pkg_tc/* -DestinationPath BAKR_TUBECOMP_Windows.zip
+          New-Item -ItemType Directory -Force pkg_inf | Out-Null
+          Copy-Item -Recurse "build_inf/BAKR_INFLATE_artefacts/Release/VST3/BAKR INFLATE.vst3" pkg_inf/
+          Copy-Item plugins/BAKR_INFLATE/Installer.bat, plugins/BAKR_INFLATE/LISEZMOI.txt pkg_inf/
+          Compress-Archive -Path pkg_inf/* -DestinationPath BAKR_INFLATE_Windows.zip
+          New-Item -ItemType Directory -Force pkg_gtr | Out-Null
+          Copy-Item -Recurse "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3" pkg_gtr/
+          Copy-Item plugins/BAKR_GUITAR/Installer.bat, plugins/BAKR_GUITAR/LISEZMOI.txt pkg_gtr/
+          Compress-Archive -Path pkg_gtr/* -DestinationPath BAKR_GUITAR_Windows.zip
+          New-Item -ItemType Directory -Force pkg_vc | Out-Null
+          Copy-Item -Recurse "build_vc/BAKR_VOXCHAIN_artefacts/Release/VST3/BAKR VOXCHAIN.vst3" pkg_vc/
+          Copy-Item plugins/BAKR_VOXCHAIN/Installer.bat, plugins/BAKR_VOXCHAIN/LISEZMOI.txt pkg_vc/
+          Compress-Archive -Path pkg_vc/* -DestinationPath BAKR_VOXCHAIN_Windows.zip
+      - name: BAKR Suite (installateur unique)
+        shell: pwsh
+        env:
+          SUITE_VERSION: 1.${{ github.run_number }}
+        run: |
+          New-Item -ItemType Directory -Force pkg_suite/VST3, pkg_suite/Notices | Out-Null
+          $items = @(
+            @{ vst = "build_vox/BAKR_VOXMIDI_artefacts/Release/VST3/BAKR VOXMIDI.vst3"; doc = "plugins/BAKR_VOXMIDI/LISEZMOI.txt"; name = "BAKR VOXMIDI" },
+            @{ vst = "build_rep/BAKR_REPAIR_artefacts/Release/VST3/BAKR REPAIR.vst3"; doc = "plugins/BAKR_REPAIR/LISEZMOI.txt"; name = "BAKR REPAIR" },
+            @{ vst = "build_81/BAKR_81_artefacts/Release/VST3/BAKR 81.vst3"; doc = "plugins/BAKR_81/LISEZMOI.txt"; name = "BAKR 81" },
+            @{ vst = "build_ha/HA81A_Coulibaly_Edition_artefacts/Release/VST3/HA-81A EQ - Coulibaly Edition.vst3"; doc = "plugins/HA81A_Coulibaly_Edition/README_FR.md"; name = "HA-81A EQ - Coulibaly Edition" },
+            @{ vst = "build_tc/BAKR_TUBECOMP_artefacts/Release/VST3/BAKR TUBECOMP.vst3"; doc = "plugins/BAKR_TUBECOMP/LISEZMOI.txt"; name = "BAKR TUBECOMP" },
+            @{ vst = "build_inf/BAKR_INFLATE_artefacts/Release/VST3/BAKR INFLATE.vst3"; doc = "plugins/BAKR_INFLATE/LISEZMOI.txt"; name = "BAKR INFLATE" },
+            @{ vst = "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3"; doc = "plugins/BAKR_GUITAR/LISEZMOI.txt"; name = "BAKR GUITAR" },
+            @{ vst = "build_vc/BAKR_VOXCHAIN_artefacts/Release/VST3/BAKR VOXCHAIN.vst3"; doc = "plugins/BAKR_VOXCHAIN/LISEZMOI.txt"; name = "BAKR VOXCHAIN" },
+            @{ vst = "build_anth/BAKR_AMBER_OPTO_artefacts/Release/VST3/BAKR AMBER OPTO.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR AMBER OPTO" },
+            @{ vst = "build_anth/BAKR_KARAT_STRIP_artefacts/Release/VST3/BAKR KARAT STRIP.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR KARAT STRIP" },
+            @{ vst = "build_anth/BAKR_VARIMU_ST_artefacts/Release/VST3/BAKR VARIMU ST.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR VARIMU ST" },
+            @{ vst = "build_anth/BAKR_BUS4_artefacts/Release/VST3/BAKR BUS4.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR BUS4" },
+            @{ vst = "build_anth/BAKR_LINE_PRE_artefacts/Release/VST3/BAKR LINE PRE.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR LINE PRE" },
+            @{ vst = "build_anth/BAKR_BLUE_COMP_artefacts/Release/VST3/BAKR BLUE COMP.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR BLUE COMP" }
+          )
+          foreach ($it in $items) {
+            Copy-Item -Recurse $it.vst pkg_suite/VST3/
+            $ext = [System.IO.Path]::GetExtension($it.doc)
+            Copy-Item $it.doc ("pkg_suite/Notices/" + $it.name + $ext)
+          }
+          Copy-Item installer/Installer_BAKR_Suite.bat, installer/Desinstaller_BAKR_Suite.bat, installer/LISEZMOI_BAKR_Suite.txt pkg_suite/
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress | Out-Null }
+          & $iscc installer/BAKR_Suite.iss
+          if ($LASTEXITCODE -ne 0) { throw "Echec Inno Setup" }
+          Copy-Item BAKR_Suite_Setup.exe pkg_suite/
+          Compress-Archive -Path pkg_suite/* -DestinationPath BAKR_Suite_Windows.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: plugins-v1.${{ github.run_number }}
           name: Plugins BAKR (Windows VST3) v1.${{ github.run_number }}
-          body: "Dezippe, puis double-clique sur Installer.bat. Ensuite FL Studio > Options > Manage plugins > Find installed plugins."
+          body: "Tout en un : BAKR_Suite_Setup.exe (ou BAKR_Suite_Windows.zip puis Installer_BAKR_Suite.bat). Ensuite FL Studio > Options > Manage plugins > Find installed plugins."
           files: |
             BAKR_VOXMIDI_Windows.zip
             BAKR_REPAIR_Windows.zip
             BAKR_81_Windows.zip
             HA81A_Coulibaly_Edition_Windows.zip
             BAKR_TUBECOMP_Windows.zip
-            BAKR_TUBECOMP_Setup.exe
-            BAKR_ANTHOLOGY_Setup.exe
-          make_latest: false
+            BAKR_INFLATE_Windows.zip
+            BAKR_GUITAR_Windows.zip
+            BAKR_VOXCHAIN_Windows.zip
+            BAKR_Suite_Setup.exe
+            BAKR_Suite_Windows.zip
+          make_latest: true

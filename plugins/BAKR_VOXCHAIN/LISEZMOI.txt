@@ -1,0 +1,39 @@
+BAKR VOXCHAIN v1.0 - Chaîne vocale complète en 5 modules (VST3 pour FL Studio)
+=============================================================================
+Mets-le sur ta piste de voix : tout est dedans, du nettoyage jusqu'à la reverb.
+Chaque module a son bouton marche/arrêt (en haut à gauche de la colonne).
+
+1. COMPRESSION
+   Entrée, Compression (quantité), Sortie. Vumètre = réduction de gain.
+   Lent : attaque et relâchement plus lents (plus naturel, ballades).
+   Auto : compense le volume perdu par la compression.
+
+2. AMÉLIORATION
+   De-Ess : calme les « s » et « ch » qui sifflent.
+   De-Noise : baisse le bruit de fond entre les phrases (souffle, ventilo).
+   Air : brillance et présence dans l'extrême aigu.
+   Avant comp : place ce module avant le compresseur.
+
+3. EQ
+   Aigus (étagère 8 kHz), Médiums (cloche 1,5 kHz), Coupe-bas (20 à 300 Hz).
+   Pré : EQ avant le compresseur.
+   Ad-lib : son plus fin et en avant pour les ad-libs (coupe graves + extrême aigu).
+
+4. DOUBLEUR
+   Crée des voix doublées autour de ta voix principale.
+   Largeur : écart stéréo des doublures. Décalage : variation de temps et de justesse.
+   Quantité : volume des doublures. Graves au centre : enlève les graves des doublures.
+
+5. ESPACE
+   Reverb : Taille + Reverb (dosage), type Room / Plate / Hall / Cathédrale / Ambiance.
+   Delay : temps calé sur le tempo (1/2, 1/4, 1/8 pointée, 1/8, 1/16), Delay (dosage),
+   type Moderne / Tape / Ping-pong / Slap.
+
+PRESETS : Défaut, Voix Afro claire, Refrain très large, Ad-libs, Voix mandingue chaude,
+Rap lead sec, Ballade (hall), Voix radio, Cathédrale, Chorus large (doubles).
+
+La fenêtre se redimensionne (coin en bas à droite).
+
+INSTALLATION : dézippe, double-clique sur Installer.bat, puis
+FL Studio > Options > Manage plugins > Find installed plugins,
+et charge BAKR VOXCHAIN dans un slot du Mixer de ta piste de voix.
