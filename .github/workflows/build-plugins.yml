@@ -30,6 +30,15 @@ jobs:
         run: |
           cmake -S plugins/BAKR_TUBECOMP -B build_tc -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
           cmake --build build_tc --config Release --target BAKR_TUBECOMP_VST3
+      - name: Compiler BAKR ANTHOLOGY (6 plugins)
+        run: |
+          cmake -S plugins/BAKR_ANTHOLOGY -B build_anth -A x64 -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/build_vox/_deps"
+          cmake --build build_anth --config Release --parallel
+      - name: Installateur BAKR ANTHOLOGY (Setup.exe)
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" plugins/BAKR_ANTHOLOGY/Installer/Setup.iss
       - name: Installateur BAKR TUBECOMP (Setup.exe)
         shell: pwsh
         run: |
@@ -69,4 +78,5 @@ jobs:
             HA81A_Coulibaly_Edition_Windows.zip
             BAKR_TUBECOMP_Windows.zip
             BAKR_TUBECOMP_Setup.exe
+            BAKR_ANTHOLOGY_Setup.exe
           make_latest: false
