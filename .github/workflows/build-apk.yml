@@ -32,4 +32,4 @@ jobs:
           name: BAKR Studio Pro v2.0.${{ github.run_number }}
           body: "Télécharge BAKR_Studio.apk ci-dessous et ouvre-le sur ton téléphone Android."
           files: BAKR_Studio.apk
-          make_latest: false
+          make_latest: true
