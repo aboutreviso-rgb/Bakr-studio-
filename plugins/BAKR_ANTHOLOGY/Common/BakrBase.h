@@ -49,6 +49,7 @@ namespace bakr
 
         // mesures (dB) lues par l'interface : réduction de gain, entrée, sortie (L/R)
         std::array<std::atomic<float>, 2> grDb { 0.0f, 0.0f }, inDb { -80.0f, -80.0f }, outDb { -80.0f, -80.0f };
+        std::array<std::atomic<float>, 4> extra { 0.0f, 0.0f, 0.0f, 0.0f };   // mesures spécifiques (LUFS, clip...)
 
     protected:
         virtual void prepareCore (double fsOS, int maxBlockOS, int numChannels) = 0;

@@ -31,6 +31,11 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
+Name: "nleveler"; Description: "BAKR LEVELER (nouveau look) - compresseur opto a lampe"; Types: full
+Name: "nfet"; Description: "BAKR FET (nouveau look) - limiteur FET (4/8/12/20/ALL)"; Types: full
+Name: "nchannel"; Description: "BAKR CHANNEL (nouveau look) - tranche de console complete"; Types: full
+Name: "ntube"; Description: "BAKR TUBE (nouveau look) - saturation a lampes Mid/Side"; Types: full
+Name: "nmaster"; Description: "BAKR MASTER (nouveau look) - chaine analogique pour le Master"; Types: full
 Name: "amberopto";Description: "BAKR AMBER OPTO - compresseur opto a lampes"; Types: full
 Name: "karat";    Description: "BAKR KARAT STRIP - tranche console (pre + EQ + comp)"; Types: full
 Name: "varimu";   Description: "BAKR VARIMU ST - compresseur stereo variable-mu"; Types: full
@@ -45,6 +50,11 @@ Name: "ha81a";   Description: "HA-81A EQ - Coulibaly Edition"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
+Source: "..\pkg_suite\VST3\BAKR LEVELER.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR LEVELER.vst3"; Components: nleveler; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\pkg_suite\VST3\BAKR FET.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR FET.vst3"; Components: nfet; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\pkg_suite\VST3\BAKR CHANNEL.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR CHANNEL.vst3"; Components: nchannel; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\pkg_suite\VST3\BAKR TUBE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR TUBE.vst3"; Components: ntube; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\pkg_suite\VST3\BAKR MASTER.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR MASTER.vst3"; Components: nmaster; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR AMBER OPTO.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR AMBER OPTO.vst3"; Components: amberopto; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR KARAT STRIP.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR KARAT STRIP.vst3"; Components: karat; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR VARIMU ST.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR VARIMU ST.vst3"; Components: varimu; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -58,6 +68,13 @@ Source: "..\pkg_suite\VST3\BAKR 81.vst3\*";      DestDir: "{commoncf64}\VST3\BAK
 Source: "..\pkg_suite\VST3\HA-81A EQ - Coulibaly Edition.vst3\*"; DestDir: "{commoncf64}\VST3\HA-81A EQ - Coulibaly Edition.vst3"; Components: ha81a; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR VOXMIDI.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR VOXMIDI.vst3"; Components: voxmidi; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\Notices\*"; DestDir: "{app}\Notices"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[InstallDelete]
+Type: filesandordirs; Name: "{commoncf64}\VST3\BAKR\BAKR LEVELER.vst3"; Components: nleveler
+Type: filesandordirs; Name: "{commoncf64}\VST3\BAKR\BAKR FET.vst3"; Components: nfet
+Type: filesandordirs; Name: "{commoncf64}\VST3\BAKR\BAKR CHANNEL.vst3"; Components: nchannel
+Type: filesandordirs; Name: "{commoncf64}\VST3\BAKR\BAKR TUBE.vst3"; Components: ntube
+Type: filesandordirs; Name: "{commoncf64}\VST3\BAKR\BAKR MASTER.vst3"; Components: nmaster
 
 [Icons]
 Name: "{group}\Notices des plugins BAKR"; Filename: "{app}\Notices"

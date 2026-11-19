@@ -51,10 +51,17 @@ bakr_plugin(BAKR_BUS4        "BAKR BUS4"        Bbu4 Plugins/Bus4.cpp)
 bakr_plugin(BAKR_LINE_PRE    "BAKR LINE PRE"    Blpr Plugins/LinePre.cpp)
 bakr_plugin(BAKR_BLUE_COMP   "BAKR BLUE COMP"   Bblc Plugins/BlueComp.cpp)
 
+# BAKR Suite (nouvelle generation, look UAD)
+bakr_plugin(BAKR_LEVELER     "BAKR LEVELER"     Blv2 Plugins/Leveler.cpp)
+bakr_plugin(BAKR_FET         "BAKR FET"         Bft2 Plugins/Fet.cpp)
+bakr_plugin(BAKR_CHANNEL     "BAKR CHANNEL"     Bch2 Plugins/Channel.cpp)
+bakr_plugin(BAKR_TUBE        "BAKR TUBE"        Btb2 Plugins/Tube.cpp)
+bakr_plugin(BAKR_MASTER      "BAKR MASTER"      Bms2 Plugins/Master.cpp)
+
 # Outil de test (captures d'écran + test audio), pas compilé pour Windows
 option(BAKR_SNAP "Construire l'outil de capture" OFF)
 if(BAKR_SNAP)
-    foreach(P AmberOpto KaratStrip VariMuSt Bus4 LinePre BlueComp)
+    foreach(P AmberOpto KaratStrip VariMuSt Bus4 LinePre BlueComp Leveler Fet Channel Tube Master)
         juce_add_console_app(Snap_${P} PRODUCT_NAME "Snap_${P}")
         juce_generate_juce_header(Snap_${P})
         target_sources(Snap_${P} PRIVATE Tools/Snap.cpp Plugins/${P}.cpp ${COMMON_SOURCES})

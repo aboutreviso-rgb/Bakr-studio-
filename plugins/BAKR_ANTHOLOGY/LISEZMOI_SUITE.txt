@@ -1,0 +1,11 @@
+BAKR SUITE - nouvelle generation (look style console analogique)
+
+- BAKR LEVELER : compresseur opto a lampe (REDUCTION, GAIN, COMPRESS/LIMIT, ACCENT, MIX)
+- BAKR FET : limiteur FET (INPUT, OUTPUT, ATTACK 20-800 us, RELEASE, RATIO 4/8/12/20/ALL, MIX)
+- BAKR CHANNEL : tranche de console (entree mono/stereo, filtres, EQ 4 bandes, 5 compresseurs, gate, grain, clipper, sortie)
+- BAKR TUBE : saturation a lampes Stereo ou Mid/Side (pentode, triode, alt tube, saturation ciblee, air, density, mono maker)
+- BAKR MASTER : console > bande > glue > ton > limiter, LUFS court et integre
+
+Barre du bas : presets (fleches ou menu) et comparaison A / B.
+Ces versions remplacent les anciennes dans C:\Program Files\Common Files\VST3\BAKR\.
+Attention : un projet FL Studio enregistre avec l ancienne version doit etre regle a nouveau.

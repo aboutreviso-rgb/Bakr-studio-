@@ -46,7 +46,8 @@ void BaseProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBu
         inDb[(size_t) c].store (dB (buffer.getMagnitude (c, 0, n)));
 
     juce::dsp::AudioBlock<float> block (buffer.getArrayOfWritePointers(), (size_t) nCh, (size_t) n);
-    const float mix = has ("mix") ? p ("mix") * 0.01f : 1.0f;
+    float mix = has ("mix") ? p ("mix") * 0.01f : 1.0f;
+    if (has ("power") && p ("power") < 0.5f) mix = 0.0f;   // marche/arrêt = bypass sans clic
     dryWet.setWetMixProportion (mix);
     dryWet.pushDrySamples (block);
 

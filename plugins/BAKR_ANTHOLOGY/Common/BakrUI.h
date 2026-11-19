@@ -4,8 +4,8 @@
 
 namespace bakr
 {
-    enum class Ctl { Knob, Selector, Button, Lamp, Lever, Fader };
-    enum class Src { GrMax, GrL, GrR, InMax, OutMax, InL, InR, OutL, OutR, Selectable };
+    enum class Ctl { Knob, Selector, Button, Lamp, Lever, Fader, Radio };
+    enum class Src { GrMax, GrL, GrR, InMax, OutMax, InL, InR, OutL, OutR, Selectable, Extra0, Extra1, Extra2, Extra3 };
 
     struct ControlSpec
     {
@@ -19,6 +19,7 @@ namespace bakr
         juce::Colour light { 0xffff3b2f };// couleur des boutons lumineux
         float labelGap = 0.0f;            // décalage du titre (0 = auto)
         juce::Colour labelColour { 0x00000000 }; // 0 = couleur du thème
+        int radioValue = 0;               // Ctl::Radio : valeur (index) du choix
     };
 
     struct MeterSpec
@@ -26,8 +27,9 @@ namespace bakr
         float x, y, w, h;
         Src src;
         juce::String caption;
-        juce::String face = "cream";      // cream, amber, white, led
+        juce::String face = "cream";      // cream, amber, white, led, readout (chiffres), bar (barre GR)
         const char* selectParam = nullptr; // pour Src::Selectable (0=GR,1=IN,2=OUT)
+        juce::String unit {};             // readout : unité affichée
     };
 
     struct TextSpec

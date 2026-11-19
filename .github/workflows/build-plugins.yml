@@ -98,7 +98,12 @@ jobs:
             @{ vst = "build_anth/BAKR_VARIMU_ST_artefacts/Release/VST3/BAKR VARIMU ST.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR VARIMU ST" },
             @{ vst = "build_anth/BAKR_BUS4_artefacts/Release/VST3/BAKR BUS4.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR BUS4" },
             @{ vst = "build_anth/BAKR_LINE_PRE_artefacts/Release/VST3/BAKR LINE PRE.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR LINE PRE" },
-            @{ vst = "build_anth/BAKR_BLUE_COMP_artefacts/Release/VST3/BAKR BLUE COMP.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR BLUE COMP" }
+            @{ vst = "build_anth/BAKR_BLUE_COMP_artefacts/Release/VST3/BAKR BLUE COMP.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR BLUE COMP" },
+            @{ vst = "build_anth/BAKR_LEVELER_artefacts/Release/VST3/BAKR LEVELER.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR LEVELER" },
+            @{ vst = "build_anth/BAKR_FET_artefacts/Release/VST3/BAKR FET.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR FET" },
+            @{ vst = "build_anth/BAKR_CHANNEL_artefacts/Release/VST3/BAKR CHANNEL.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR CHANNEL" },
+            @{ vst = "build_anth/BAKR_TUBE_artefacts/Release/VST3/BAKR TUBE.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR TUBE" },
+            @{ vst = "build_anth/BAKR_MASTER_artefacts/Release/VST3/BAKR MASTER.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR MASTER" }
           )
           foreach ($it in $items) {
             Copy-Item -Recurse $it.vst pkg_suite/VST3/

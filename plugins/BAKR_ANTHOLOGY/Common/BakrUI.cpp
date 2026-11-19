@@ -260,6 +260,10 @@ float Meter::read (Src s) const
         case Src::InR:    return proc.inDb[1].load();
         case Src::OutL:   return proc.outDb[0].load();
         case Src::OutR:   return proc.outDb[1].load();
+        case Src::Extra0: return proc.extra[0].load();
+        case Src::Extra1: return proc.extra[1].load();
+        case Src::Extra2: return proc.extra[2].load();
+        case Src::Extra3: return proc.extra[3].load();
         default:          return 0.0f;
     }
 }
@@ -275,6 +279,19 @@ void Meter::tick()
     const bool gr = (s == Src::GrMax || s == Src::GrL || s == Src::GrR);
     mode = gr ? 0 : 1;
     const float raw = read (s);
+
+    if (spec.face == "readout")
+    {
+        if (std::abs (raw - val2) > 0.04f) { val2 = raw; repaint(); }
+        return;
+    }
+    if (spec.face == "bar")
+    {
+        val2 = raw > val2 ? raw : val2 + 0.15f * (raw - val2);
+        peak = juce::jmax (val2, peak - 0.08f);
+        repaint();
+        return;
+    }
 
     if (spec.face == "led")
     {
@@ -294,6 +311,39 @@ void Meter::paint (juce::Graphics& g)
 {
     auto b = getLocalBounds().toFloat();
 
+    if (spec.face == "readout")
+    {
+        g.setColour (juce::Colours::black);
+        g.fillRoundedRectangle (b, 4.0f);
+        g.setColour (juce::Colours::white.withAlpha (0.15f));
+        g.drawRoundedRectangle (b.reduced (0.5f), 4.0f, 1.0f);
+        const bool none = val2 <= -59.0f;
+        g.setColour (juce::Colour (0xffffb347));
+        g.setFont (juce::FontOptions (b.getHeight() * 0.55f, juce::Font::bold));
+        g.drawText (none ? juce::String ("--.-") : juce::String (val2, 1), b.withTrimmedRight (b.getWidth() * 0.3f), juce::Justification::centredRight);
+        g.setColour (juce::Colour (0xffb0b4ba));
+        g.setFont (juce::FontOptions (b.getHeight() * 0.30f, juce::Font::bold));
+        g.drawText (spec.unit, b.withTrimmedLeft (b.getWidth() * 0.72f), juce::Justification::centredLeft);
+        g.drawText (spec.caption, b.withHeight (b.getHeight() * 0.32f).withTrimmedLeft (6.0f), juce::Justification::centredLeft);
+        return;
+    }
+    if (spec.face == "bar")
+    {
+        // barre de réduction de gain (0 à 20 dB) de gauche à droite, LED orange
+        g.setColour (juce::Colours::black);
+        g.fillRoundedRectangle (b, 3.0f);
+        const int nSeg = 20;
+        auto area = b.reduced (3.0f, 3.0f);
+        const float sw = area.getWidth() / (float) nSeg;
+        for (int i = 0; i < nSeg; ++i)
+        {
+            const bool lit = val2 >= (float) i + 0.5f || (peak >= (float) i + 0.5f && peak < (float) i + 1.5f);
+            const auto colour = juce::Colour (0xffffa030);
+            g.setColour (lit ? colour : colour.withAlpha (0.12f));
+            g.fillRoundedRectangle (area.getX() + (float) i * sw + 1.0f, area.getY(), sw - 2.0f, area.getHeight(), 1.5f);
+        }
+        return;
+    }
     if (spec.face == "led")
     {
         g.setColour (juce::Colours::black);
@@ -426,6 +476,27 @@ Panel::Panel (BaseProcessor& p, UiSpec s) : proc (p), spec (std::move (s))
                 sl.setDoubleClickReturnValue (true, proc.apvts.getParameterRange (cs.id).convertFrom0to1 (prm->getDefaultValue()));
             addAndMakeVisible (sl);
             it->sAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (proc.apvts, cs.id, sl);
+        }
+        else if (cs.type == Ctl::Radio)
+        {
+            it->button = std::make_unique<juce::ToggleButton> (cs.label);
+            auto& bt = *it->button;
+            bt.getProperties().set ("kind", "button");
+            bt.getProperties().set ("light", cs.light.toString());
+            bt.setClickingTogglesState (false);
+            bt.setBounds (juce::Rectangle<float> (cs.size, cs.size * 0.55f).withCentre ({ cs.x, cs.y }).toNearestInt());
+            const juce::String pid (cs.id);
+            const int v = cs.radioValue;
+            bt.onClick = [this, pid, v]
+            {
+                if (auto* prm = proc.apvts.getParameter (pid))
+                {
+                    prm->beginChangeGesture();
+                    prm->setValueNotifyingHost (prm->convertTo0to1 ((float) v));
+                    prm->endChangeGesture();
+                }
+            };
+            addAndMakeVisible (bt);
         }
         else
         {
@@ -607,7 +678,7 @@ void Panel::drawItemText (juce::Graphics& g, const Item& it)
 {
     const auto& cs = it.spec;
     const auto& t = spec.theme;
-    if (cs.type == Ctl::Button) return;
+    if (cs.type == Ctl::Button || cs.type == Ctl::Radio) return;
     const bool custom = cs.labelColour.getAlpha() > 0;
     const juce::Colour txt = custom ? cs.labelColour : t.text;
     const juce::Colour dim = custom ? cs.labelColour.withAlpha (0.75f) : t.dim;
@@ -673,7 +744,11 @@ void Panel::tick()
     for (auto& m : meters) m->tick();
     juce::int64 h = 0;
     for (auto& it : items)
+    {
         if (it->spec.type == Ctl::Selector) h = h * 13 + (juce::int64) std::round (it->slider->getValue());
+        if (it->spec.type == Ctl::Radio)
+            it->button->setToggleState ((int) std::round (proc.p (it->spec.id)) == it->spec.radioValue, juce::dontSendNotification);
+    }
     if (h != lastHash) { lastHash = h; repaint(); }
 }
 
