@@ -110,7 +110,8 @@ public:
         UiSpec u;
         u.w = 1150; u.h = 440;
         const auto txt = juce::Colour (0xfff0eee8), dim = juce::Colour (0xffc5c3bc), acc = juce::Colour (0xffffc14d);
-        u.theme = { juce::Colour (0xff6f7377), juce::Colour (0xff3a3d41), txt, dim, acc };
+        u.theme = { juce::Colour (0xff6a7076), juce::Colour (0xff3b3f44), txt, dim, acc };
+        u.theme.texture = 1; u.theme.earColour = juce::Colour (0xff5a5f64);
         u.boxes = {
             { 450, 30, 250, 220, juce::Colour (0xff1b1712), juce::Colour (0xff9a9690), 10.0f },
             { 462, 142, 226, 100, juce::Colour (0xff120f0b), juce::Colour (0x30ffffff), 6.0f, 1 },

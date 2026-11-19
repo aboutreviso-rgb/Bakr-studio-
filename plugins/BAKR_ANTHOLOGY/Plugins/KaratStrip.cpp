@@ -138,7 +138,8 @@ public:
         UiSpec u;
         u.w = 1200; u.h = 440;
         const auto gold = juce::Colour (0xffe1b65a), txt = juce::Colour (0xffe9e4d8), dim = juce::Colour (0xff9f9a90);
-        u.theme = { juce::Colour (0xff2b2c2f), juce::Colour (0xff141517), txt, dim, gold };
+        u.theme = { juce::Colour (0xff35373b), juce::Colour (0xff18191b), txt, dim, gold };
+        u.theme.texture = 1; u.theme.earColour = juce::Colour (0xff6b6255);
         const auto box = juce::Colour (0x30000000), line = juce::Colour (0x40ffffff);
         u.boxes = {
             { 48, 120, 190, 302, box, line }, { 248, 120, 372, 302, box, line }, { 630, 120, 232, 302, box, line },

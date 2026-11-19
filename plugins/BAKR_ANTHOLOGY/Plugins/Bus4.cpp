@@ -93,14 +93,14 @@ public:
     {
         UiSpec u;
         u.w = 1000; u.h = 340;
-        const auto txt = juce::Colour (0xff26292c), dim = juce::Colour (0xff4b4e52), acc = juce::Colour (0xffc8261c);
-        u.theme = { juce::Colour (0xffc9c7c0), juce::Colour (0xffa7a49c), txt, dim, acc };
-        u.theme.earColour = juce::Colour (0xff8e8c86);
-        u.boxes = { { 96, 22, 214, 300, juce::Colour (0x14000000), juce::Colour (0x40000000) },
-                    { 326, 22, 520, 300, juce::Colour (0x10000000), juce::Colour (0x40000000) },
-                    { 856, 22, 110, 300, juce::Colour (0x14000000), juce::Colour (0x40000000) } };
+        const auto txt = juce::Colour (0xfff0f2f5), dim = juce::Colour (0xffb9c1cb), acc = juce::Colour (0xffff4a3d);
+        u.theme = { juce::Colour (0xff47505c), juce::Colour (0xff2b3139), txt, dim, acc };
+        u.theme.texture = 2; u.theme.earColour = juce::Colour (0xff3a4048);
+        u.boxes = { { 96, 22, 214, 300, juce::Colour (0x22000000), juce::Colour (0x30ffffff) },
+                    { 326, 22, 520, 300, juce::Colour (0x18000000), juce::Colour (0x30ffffff) },
+                    { 856, 22, 110, 300, juce::Colour (0x22000000), juce::Colour (0x30ffffff) } };
         u.texts = {
-            { "BUS 4", 38, 20, 56, 300, 46, juce::Colour (0xff6f6d67), false, false, juce::Justification::centred, true },
+            { "BUS 4", 38, 20, 56, 300, 46, juce::Colour (0xff7d8794), false, false, juce::Justification::centred, true },
             { "BAKR", 856, 36, 110, 34, 28, txt, true, true },
             { "BUS 4", 856, 68, 110, 18, 14, acc },
             { "console bus", 856, 86, 110, 14, 10, dim, false, true },

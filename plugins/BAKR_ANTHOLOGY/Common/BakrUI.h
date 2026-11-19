@@ -54,6 +54,7 @@ namespace bakr
         bool brushed = true;
         bool rackEars = true;
         juce::Colour earColour { 0xff2a2c30 };
+        int texture = 0;   // 0 = brossé (si brushed), 1 = peinture martelée, 2 = peinture poudre lisse
     };
 
     struct UiSpec
@@ -117,19 +118,28 @@ namespace bakr
         LookAndFeel lnf;
         std::vector<std::unique_ptr<Item>> items;
         std::vector<std::unique_ptr<Meter>> meters;
-        juce::ComboBox presets;
         juce::Image bg;
         juce::int64 lastHash = -1;
     };
 
+    // Fenêtre du plugin : façade + barre d'outils (presets, comparaison A/B)
     class Editor : public juce::AudioProcessorEditor, private juce::Timer
     {
     public:
+        static constexpr int barH = 40;
         Editor (BaseProcessor&, UiSpec);
-        void paint (juce::Graphics& g) override { g.fillAll (juce::Colours::black); }
+        ~Editor() override { setLookAndFeel (nullptr); }
+        void paint (juce::Graphics& g) override;
         void resized() override;
     private:
-        void timerCallback() override { panel.tick(); }
+        void timerCallback() override;
+        void selectSlot (int slot);
+        BaseProcessor& proc;
         Panel panel;
+        LookAndFeel lnf;
+        juce::ComboBox presets;
+        juce::TextButton aBtn { "A" }, bBtn { "B" }, copyBtn { "A > B" }, prevBtn { "<" }, nextBtn { ">" };
+        juce::ValueTree slots[2];
+        int cur = 0;
     };
 }

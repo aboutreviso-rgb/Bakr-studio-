@@ -38,12 +38,10 @@ Name: "bus4";     Description: "BAKR BUS4 - compresseur de bus"; Types: full
 Name: "linepre";  Description: "BAKR LINE PRE - preampli classe A + EQ"; Types: full
 Name: "bluecomp"; Description: "BAKR BLUE COMP - compresseur VCA"; Types: full
 Name: "voxchain";Description: "BAKR VOXCHAIN - chaine vocale complete (5 modules)"; Types: full
-Name: "guitar";  Description: "BAKR GUITAR - guitares acoustiques et electriques (instrument)"; Types: full
 Name: "inflate"; Description: "BAKR INFLATE - volume et densite sans compression"; Types: full
 Name: "tubecomp";Description: "BAKR TUBECOMP - compresseur a lampes"; Types: full
 Name: "b81";     Description: "BAKR 81 - preampli + EQ console classe A"; Types: full
 Name: "ha81a";   Description: "HA-81A EQ - Coulibaly Edition"; Types: full
-Name: "repair";  Description: "BAKR REPAIR - reparation vocale"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
@@ -54,12 +52,10 @@ Source: "..\pkg_suite\VST3\BAKR BUS4.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR B
 Source: "..\pkg_suite\VST3\BAKR LINE PRE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR LINE PRE.vst3"; Components: linepre; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR BLUE COMP.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR BLUE COMP.vst3"; Components: bluecomp; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR VOXCHAIN.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR VOXCHAIN.vst3"; Components: voxchain; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\pkg_suite\VST3\BAKR GUITAR.vst3\*";  DestDir: "{commoncf64}\VST3\BAKR GUITAR.vst3";  Components: guitar;  Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR INFLATE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR INFLATE.vst3"; Components: inflate; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR TUBECOMP.vst3\*";DestDir: "{commoncf64}\VST3\BAKR TUBECOMP.vst3";Components: tubecomp;Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR 81.vst3\*";      DestDir: "{commoncf64}\VST3\BAKR 81.vst3";      Components: b81;     Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\HA-81A EQ - Coulibaly Edition.vst3\*"; DestDir: "{commoncf64}\VST3\HA-81A EQ - Coulibaly Edition.vst3"; Components: ha81a; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\pkg_suite\VST3\BAKR REPAIR.vst3\*";  DestDir: "{commoncf64}\VST3\BAKR REPAIR.vst3";  Components: repair;  Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR VOXMIDI.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR VOXMIDI.vst3"; Components: voxmidi; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\Notices\*"; DestDir: "{app}\Notices"; Flags: ignoreversion recursesubdirs createallsubdirs
 

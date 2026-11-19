@@ -94,15 +94,17 @@ public:
     {
         UiSpec u;
         u.w = 1000; u.h = 360;
-        u.theme = { juce::Colour (0xff3f5f6b), juce::Colour (0xff2b434c), juce::Colour (0xfff3ead2), juce::Colour (0xffc9c2ae), juce::Colour (0xffffd34a) };
-        const auto cream = juce::Colour (0xfff3ead2), ink = juce::Colour (0xff2b2416);
-        u.boxes = { { 34, 238, 932, 122, juce::Colour (0xffd8b546), juce::Colour (0xff8d6f1e), 0.0f },
-                    { 760, 40, 190, 92, juce::Colour (0x22000000), juce::Colour (0x55ffffff), 6.0f } };
+        u.theme = { juce::Colour (0xffc3c6c9), juce::Colour (0xff8e9296), juce::Colour (0xff1c1e21), juce::Colour (0xff3d4045), juce::Colour (0xffb3261e) };
+        u.theme.texture = 1; u.theme.earColour = juce::Colour (0xff9fa3a7);
+        const auto cream = juce::Colour (0xfff3ead2), ink = juce::Colour (0xff1c1e21), amber = juce::Colour (0xffd9a441);
+        u.boxes = { { 34, 238, 932, 122, juce::Colour (0xff2a2d31), juce::Colour (0xff111214), 0.0f },
+                    { 34, 236, 932, 3, amber, amber, 0.0f },
+                    { 760, 40, 190, 92, juce::Colour (0x14000000), juce::Colour (0x40000000), 6.0f } };
         u.texts = {
-            { "BAKR", 760, 44, 190, 40, 34, cream, true, true },
-            { "AMBER OPTO", 760, 82, 190, 24, 18, juce::Colour (0xffffd34a), true },
-            { "opto leveling amplifier", 760, 106, 190, 18, 11, cream, false, true },
-            { "TUBE OPTICAL COMPRESSOR  -  BAKR AUDIO PLUGINS", 60, 336, 600, 18, 11, ink, true, false, juce::Justification::centredLeft },
+            { "BAKR", 760, 44, 190, 40, 34, ink, true, true },
+            { "AMBER OPTO", 760, 82, 190, 24, 18, juce::Colour (0xff9a6a12), true },
+            { "opto leveling amplifier", 760, 106, 190, 18, 11, juce::Colour (0xff3d4045), false, true },
+            { "TUBE OPTICAL COMPRESSOR  -  BAKR AUDIO PLUGINS", 60, 336, 600, 18, 11, juce::Colour (0xffbfb39a), true, false, juce::Justification::centredLeft },
         };
         u.controls = {
             { Ctl::Knob, "trim", "INPUT TRIM", 140, 125, 92, "black", {}, "-12", "+12" },
@@ -118,7 +120,7 @@ public:
             { Ctl::Knob, "mix", "MIX", 895, 298, 46, "black", {}, "DRY", "WET" },
         };
         for (auto& c : u.controls)
-            if (c.y > 238) c.labelColour = ink;
+            if (c.y > 238) c.labelColour = cream;
         u.meters = { { 350, 32, 290, 190, Src::Selectable, "OUTPUT", "cream", "meter" } };
         u.presetArea = { 762, 196, 188, 22 };
         auto* e = new Editor (*this, u);

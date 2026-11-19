@@ -90,7 +90,8 @@ public:
         UiSpec u;
         u.w = 1050; u.h = 330;
         const auto txt = juce::Colour (0xfff4f6fa), dim = juce::Colour (0xffc9d6ee), acc = juce::Colour (0xffffe08a);
-        u.theme = { juce::Colour (0xff2f63c4), juce::Colour (0xff1c428f), txt, dim, acc };
+        u.theme = { juce::Colour (0xff2b5bb5), juce::Colour (0xff15336f), txt, dim, acc };
+        u.theme.texture = 2; u.theme.earColour = juce::Colour (0xff2a3f66);
         u.boxes = { { 760, 30, 250, 150, juce::Colour (0x22000000), juce::Colour (0x40ffffff) } };
         u.texts = {
             { "BAKR", 60, 236, 160, 36, 30, txt, true, true },

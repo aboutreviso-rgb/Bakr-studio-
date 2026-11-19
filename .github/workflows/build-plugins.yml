@@ -88,12 +88,10 @@ jobs:
           New-Item -ItemType Directory -Force pkg_suite/VST3, pkg_suite/Notices | Out-Null
           $items = @(
             @{ vst = "build_vox/BAKR_VOXMIDI_artefacts/Release/VST3/BAKR VOXMIDI.vst3"; doc = "plugins/BAKR_VOXMIDI/LISEZMOI.txt"; name = "BAKR VOXMIDI" },
-            @{ vst = "build_rep/BAKR_REPAIR_artefacts/Release/VST3/BAKR REPAIR.vst3"; doc = "plugins/BAKR_REPAIR/LISEZMOI.txt"; name = "BAKR REPAIR" },
             @{ vst = "build_81/BAKR_81_artefacts/Release/VST3/BAKR 81.vst3"; doc = "plugins/BAKR_81/LISEZMOI.txt"; name = "BAKR 81" },
             @{ vst = "build_ha/HA81A_Coulibaly_Edition_artefacts/Release/VST3/HA-81A EQ - Coulibaly Edition.vst3"; doc = "plugins/HA81A_Coulibaly_Edition/README_FR.md"; name = "HA-81A EQ - Coulibaly Edition" },
             @{ vst = "build_tc/BAKR_TUBECOMP_artefacts/Release/VST3/BAKR TUBECOMP.vst3"; doc = "plugins/BAKR_TUBECOMP/LISEZMOI.txt"; name = "BAKR TUBECOMP" },
             @{ vst = "build_inf/BAKR_INFLATE_artefacts/Release/VST3/BAKR INFLATE.vst3"; doc = "plugins/BAKR_INFLATE/LISEZMOI.txt"; name = "BAKR INFLATE" },
-            @{ vst = "build_gtr/BAKR_GUITAR_artefacts/Release/VST3/BAKR GUITAR.vst3"; doc = "plugins/BAKR_GUITAR/LISEZMOI.txt"; name = "BAKR GUITAR" },
             @{ vst = "build_vc/BAKR_VOXCHAIN_artefacts/Release/VST3/BAKR VOXCHAIN.vst3"; doc = "plugins/BAKR_VOXCHAIN/LISEZMOI.txt"; name = "BAKR VOXCHAIN" },
             @{ vst = "build_anth/BAKR_AMBER_OPTO_artefacts/Release/VST3/BAKR AMBER OPTO.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR AMBER OPTO" },
             @{ vst = "build_anth/BAKR_KARAT_STRIP_artefacts/Release/VST3/BAKR KARAT STRIP.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI.txt"; name = "BAKR KARAT STRIP" },

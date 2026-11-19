@@ -84,8 +84,9 @@ public:
     {
         UiSpec u;
         u.w = 1000; u.h = 360;
-        const auto txt = juce::Colour (0xffeceae4), dim = juce::Colour (0xffa9a7a2), acc = juce::Colour (0xffff6a4d);
-        u.theme = { juce::Colour (0xff2a2b2e), juce::Colour (0xff121315), txt, dim, acc };
+        const auto txt = juce::Colour (0xfff2f4f6), dim = juce::Colour (0xffcfd7df), acc = juce::Colour (0xffffd27a);
+        u.theme = { juce::Colour (0xff62748a), juce::Colour (0xff435366), txt, dim, acc };
+        u.theme.texture = 1; u.theme.earColour = juce::Colour (0xff53606e);
         const auto box = juce::Colour (0x26000000), line = juce::Colour (0x30ffffff);
         u.boxes = { { 46, 34, 300, 150, box, line }, { 46, 194, 300, 154, box, line },
                     { 356, 34, 600, 314, box, line }
