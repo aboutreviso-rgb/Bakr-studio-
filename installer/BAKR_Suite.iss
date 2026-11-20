@@ -31,6 +31,7 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
+Name: "fatbox"; Description: "BAKR FATBOX - compresseur / saturateur 2 canaux (Warmth, Tranny, Buss/Track/Spank)"; Types: full
 Name: "nleveler"; Description: "BAKR LEVELER (nouveau look) - compresseur opto a lampe"; Types: full
 Name: "nfet"; Description: "BAKR FET (nouveau look) - limiteur FET (4/8/12/20/ALL)"; Types: full
 Name: "nchannel"; Description: "BAKR CHANNEL (nouveau look) - tranche de console complete"; Types: full
@@ -50,6 +51,7 @@ Name: "ha81a";   Description: "HA-81A EQ - Coulibaly Edition"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
+Source: "..\pkg_suite\VST3\BAKR FATBOX.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR FATBOX.vst3"; Components: fatbox; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR LEVELER.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR LEVELER.vst3"; Components: nleveler; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR FET.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR FET.vst3"; Components: nfet; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR CHANNEL.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR CHANNEL.vst3"; Components: nchannel; Flags: ignoreversion recursesubdirs createallsubdirs
