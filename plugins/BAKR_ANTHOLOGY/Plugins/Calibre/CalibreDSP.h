@@ -190,13 +190,16 @@ namespace calib
 
     inline Curve micCurve (int type, const Curve& custom)
     {
+        // Takstar TAK35 (statique cardio, face latérale) : pas de courbe officielle détaillée, estimation
+        // d'après la fiche (30 Hz - 20 kHz) et le profil type des statiques à grande membrane abordables
+        static const std::vector<std::pair<float, float>> tak35     { { 20, -6.0f }, { 30, -3.0f }, { 50, -1.0f }, { 80, 0 }, { 1000, 0 }, { 2500, 0.5f }, { 4000, 2.0f }, { 6000, 3.0f }, { 9000, 3.5f }, { 12000, 2.5f }, { 16000, 0.0f }, { 20000, -4.0f } };
         static const std::vector<std::pair<float, float>> condenser { { 20, -2.5f }, { 50, -0.8f }, { 100, 0 }, { 1000, 0 }, { 3000, 1.0f }, { 5000, 2.2f }, { 8000, 3.0f }, { 12000, 2.0f }, { 16000, 0.0f }, { 20000, -3.0f } };
         static const std::vector<std::pair<float, float>> sm58      { { 20, -14 }, { 50, -7 }, { 100, -2.5f }, { 200, 0 }, { 1000, 0 }, { 3000, 3.0f }, { 5000, 5.0f }, { 8000, 3.0f }, { 10000, 1.0f }, { 15000, -4.0f }, { 20000, -14.0f } };
         static const std::vector<std::pair<float, float>> sm7b      { { 20, -7 }, { 50, -2.5f }, { 100, 0 }, { 1000, 0 }, { 3000, 1.5f }, { 5000, 3.0f }, { 8000, 2.0f }, { 12000, 0.0f }, { 16000, -4.0f }, { 20000, -10.0f } };
         Curve c ((size_t) kGrid, 0.0f);
-        if (type == 4 && (int) custom.size() == kGrid) return custom;
+        if (type == 5 && (int) custom.size() == kGrid) return custom;
         const std::vector<std::pair<float, float>>* p = nullptr;
-        if (type == 1) p = &condenser; else if (type == 2) p = &sm58; else if (type == 3) p = &sm7b;
+        if (type == 1) p = &tak35; else if (type == 2) p = &condenser; else if (type == 3) p = &sm58; else if (type == 4) p = &sm7b;
         if (p != nullptr)
             for (int i = 0; i < kGrid; ++i) c[(size_t) i] = interpPoints (*p, gridFreq (i));
         return c;

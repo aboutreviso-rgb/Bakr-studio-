@@ -29,7 +29,7 @@ namespace
 
     constexpr int kMaxPositions = 9;
     constexpr int kMaxBands = 10;
-    const juce::StringArray kMicTypes { "Micro de mesure (plat)", "Statique voix (AT2020, NT1, C-1...)", "Dynamique (SM58)", "Dynamique broadcast (SM7B)", "Fichier de calibration (.txt)" };
+    const juce::StringArray kMicTypes { "Micro de mesure (plat)", "Takstar TAK35", "Statique voix (AT2020, NT1, C-1...)", "Dynamique (SM58)", "Dynamique broadcast (SM7B)", "Fichier de calibration (.txt)" };
     const juce::StringArray kTargets { "Plat (neutre)", "Studio (pente douce)", "Basses+ (Afro / Rap)" };
 }
 
@@ -930,7 +930,7 @@ public:
         }
         text (g, micDb > -99 ? juce::String (juce::roundToInt (micDb)) + " dB" : "-", mb.withTrimmedLeft (mb.getWidth() - 50), 10, txt, false);
         const auto cn = proc.getCustomMicName();
-        text (g, (int) proc.p ("micType") == 4 ? (cn.isEmpty() ? juce::String (juce::CharPointer_UTF8 ("aucun fichier charg\xc3\xa9")) : "fichier : " + cn) : "type de micro (corrige sa couleur)", { X + 14, 162, Wd - 28, 16 }, 10.5f, dim, false);
+        text (g, (int) proc.p ("micType") == 5 ? (cn.isEmpty() ? juce::String (juce::CharPointer_UTF8 ("aucun fichier charg\xc3\xa9")) : "fichier : " + cn) : "type de micro (corrige sa couleur)", { X + 14, 162, Wd - 28, 16 }, 10.5f, dim, false);
 
         step (2, "NIVEAU DU TEST", 186);
         text (g, juce::String (juce::CharPointer_UTF8 ("Pendant le bruit rose, le vum\xc3\xa8tre micro doit \xc3\xaatre vers -20 dB (orange).")), { X + 14, 246, Wd - 28, 28 }, 10.5f, dim, false);
@@ -946,7 +946,7 @@ public:
         bool err = false;
         const auto s = proc.getStatus (err);
         text (g, s, { X + 14, 386, Wd - 28, 50 }, 11.5f, err ? amber : txt, false, juce::Justification::topLeft);
-        text (g, juce::String (juce::CharPointer_UTF8 ("Micro \xc3\xa0 hauteur des oreilles, \xc3\xa0 ta place de mixage, point\xc3\xa9 vers le plafond.")), { X + 14, 444, Wd - 28, 36 }, 10.5f, dim, false, juce::Justification::topLeft);
+        text (g, juce::String (juce::CharPointer_UTF8 ("Micro \xc3\xa0 hauteur des oreilles, \xc3\xa0 ta place. TAK35 : face avant (logo TAK35) tourn\xc3\xa9" "e vers le milieu des enceintes.")), { X + 14, 444, Wd - 28, 36 }, 10.5f, dim, false, juce::Justification::topLeft);
 
         // bas : réglages + résultats
         box ({ 20, 500, 760, 182 });
@@ -1041,7 +1041,7 @@ private:
             auto c = loadCalFile (f, err);
             if (c.empty()) { proc.setStatus (err, true); return; }
             proc.setCustomMic (c, f.getFileName());
-            if (auto* prm = proc.apvts.getParameter ("micType")) prm->setValueNotifyingHost (prm->convertTo0to1 (4.0f));
+            if (auto* prm = proc.apvts.getParameter ("micType")) prm->setValueNotifyingHost (prm->convertTo0to1 (5.0f));
             proc.setStatus (juce::String (juce::CharPointer_UTF8 ("Fichier de calibration charg\xc3\xa9 : ")) + f.getFileName(), false);
         });
     }

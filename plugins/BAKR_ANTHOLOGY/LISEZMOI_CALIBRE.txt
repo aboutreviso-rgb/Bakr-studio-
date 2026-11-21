@@ -22,12 +22,16 @@ INSTALLATION DANS FL STUDIO
      il est en mode ENCEINTES par defaut. Le point vert "connecte" doit s'allumer (etape 1).
 
 MESURER
-  Etape 1 - MICRO : choisis le type de micro. Avec un micro voix, prends
+  Etape 1 - MICRO : choisis le type de micro. Takstar TAK35 : choisis "Takstar TAK35".
+            Autre micro voix, prends
             "Statique voix" (micro a condensateur) ou "Dynamique" selon ton micro.
             Avec un micro de mesure (UMIK-1, ECM8000...) tu peux charger son fichier .txt.
   Etape 2 - NIVEAU : clique BRUIT ROSE. Regle le gain du micro sur ta carte son pour que le
             vumetre soit vers -20 dB (orange), jamais au rouge. Reclique pour arreter.
-  Etape 3 - MESURER : micro a ta place de mixage, a hauteur des oreilles, pointe vers le plafond.
+  Etape 3 - MESURER : micro a ta place de mixage, a hauteur des oreilles.
+            Takstar TAK35 (micro a prise laterale) : la face avant, cote logo "TAK35" et symbole
+            en forme de coeur, tournee vers le milieu entre les 2 enceintes. Micro debout sur un pied.
+            Micro de mesure (UMIK-1, ECM8000) : pointe vers le plafond.
             Clique MESURER (environ 14 secondes : gauche puis droite). Ne bouge pas.
             Deplace le micro de 20-30 cm (devant, derriere, cotes) et refais : 3 a 5 positions.
 
