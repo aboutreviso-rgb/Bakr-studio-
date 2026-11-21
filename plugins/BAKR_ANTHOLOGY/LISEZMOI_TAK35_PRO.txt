@@ -6,7 +6,9 @@ A mettre en PREMIER effet sur la piste de ta voix enregistree avec le TAK35
 
 ORDRE DU TRAITEMENT
   Coupe-bas -> Gate -> Correction TAK35 -> Modele de micro -> Proximite -> Preampli
-  -> De-esser -> Compression -> Air -> Sortie.   Aucune latence.
+  -> De-esser -> Compression -> Air -> Sortie.
+  LATENCE 0 : tu peux le laisser actif pendant l'enregistrement et t'entendre en direct
+  dans le casque sans decalage (avec BAKR TUNE PRO en mode ZERO pour l'autotune).
 
 MODELE DE MICRO (9 boutons)
   TAK35         : le son du micro corrige, sans couleur ajoutee.
@@ -37,5 +39,11 @@ CONSEILS POUR ENREGISTRER AVEC LE TAK35
   - 15-20 cm de la bouche, avec un filtre anti-pop. Pics entre -12 et -6 dB a l'enregistrement.
   - Pres d'un lit, rideaux ou couverture derriere toi : moins de reverb de la piece.
 
-Presets : Voix lead, chaude, brillante, Afrobeats, Mandingue, Coupe-decale, Reggae,
-Choeurs, Rap, Parole/podcast, Chambre bruyante, Vintage.
+PRESETS
+  LEAD     : voix principale devant et claire (Pro, Afrobeats, Coupe-decale, Mandingue, Reggae,
+             R&B, Rap, Chaude, Brillante).
+  BACKING  : voix de soutien, moins de grave et plus compressees pour ne pas cacher le lead
+             (Standard, Afro repetitions, Doubles du lead, Adlibs, Sombre en fond).
+  CHOEURS  : doux et aeriens pour se fondre ensemble (Doux, Gospel, Afro refrain,
+             Mandingue reponse, Harmonies serrees).
+  Astuce : pour les choeurs, enregistre 2 a 4 prises et mets-les a gauche / droite (panoramique).

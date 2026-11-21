@@ -18,7 +18,7 @@ namespace bakr
     public:
         BaseProcessor (const juce::String& pluginName,
                        juce::AudioProcessorValueTreeState::ParameterLayout layout,
-                       std::vector<PresetDef> presets);
+                       std::vector<PresetDef> presets, bool oversample = true);
 
         void prepareToPlay (double sampleRate, int samplesPerBlock) override;
         void releaseResources() override {}
@@ -61,6 +61,7 @@ namespace bakr
     private:
         juce::String name;
         std::vector<PresetDef> presets;
+        bool useOS = true;   // false = traitement direct, latence 0
         int currentPreset = 0;
 
         juce::dsp::Oversampling<float> oversampler { 2, 1,

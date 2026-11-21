@@ -1,6 +1,7 @@
 // BAKR TAK35 PRO — rend le micro Takstar TAK35 plus professionnel :
 // gate de bruit, correction de la couleur du TAK35, 9 modeles de micros de studio,
-// proximite, preampli (lampe / transfo), de-esser, compresseur vocal, air. 0 latence.
+// proximite, preampli (lampe / transfo), de-esser, compresseur vocal, air.
+// LATENCE 0 : traitement direct, sans suréchantillonnage ni anticipation (lookahead).
 #include "../Common/BakrUI.h"
 using namespace bakr;
 
@@ -45,7 +46,7 @@ class TakPro : public BaseProcessor
 public:
     static constexpr int kBands = 6;
 
-    TakPro() : BaseProcessor ("BAKR TAK35 PRO", layout(), presets()) {}
+    TakPro() : BaseProcessor ("BAKR TAK35 PRO", layout(), presets(), false) {}   // latence 0 (pas de suréchantillonnage)
 
     static Layout layout()
     {
@@ -72,18 +73,31 @@ public:
     {
         return {
             { "Init", {} },
-            { "Voix lead pro (Studio 87)",       { { "model", 1 }, { "drive", 25 }, { "dess", 30 }, { "comp", 35 }, { "air", 1.5f }, { "hpf", 2 } } },
-            { "Voix chaude (Lampe 47)",          { { "model", 2 }, { "drive", 40 }, { "prox", 1.5f }, { "dess", 25 }, { "comp", 40 }, { "air", 0.5f }, { "hpf", 1 } } },
-            { "Voix brillante (Brillant 800)",   { { "model", 4 }, { "drive", 30 }, { "dess", 45 }, { "comp", 45 }, { "air", 2.0f }, { "hpf", 3 } } },
-            { "Afro - Afrobeats (lead)",         { { "model", 8 }, { "drive", 30 }, { "dess", 45 }, { "comp", 50 }, { "air", 2.5f }, { "hpf", 4 } } },
-            { "Afro - Mandingue (chant)",        { { "model", 2 }, { "drive", 35 }, { "prox", 1.0f }, { "dess", 30 }, { "comp", 40 }, { "air", 1.5f }, { "hpf", 2 } } },
-            { "Afro - Coupe-decale (lead)",      { { "model", 4 }, { "char", 120 }, { "drive", 35 }, { "dess", 45 }, { "comp", 55 }, { "air", 2.5f }, { "hpf", 4 } } },
-            { "Afro - Reggae (voix)",            { { "model", 3 }, { "drive", 40 }, { "prox", 1.5f }, { "dess", 30 }, { "comp", 40 }, { "air", 1.0f }, { "hpf", 2 } } },
-            { "Afro - Choeurs (doux)",           { { "model", 3 }, { "drive", 15 }, { "prox", -2.0f }, { "dess", 40 }, { "comp", 45 }, { "air", 2.0f }, { "hpf", 5 } } },
-            { "Rap (Broadcast 7)",               { { "model", 6 }, { "drive", 35 }, { "prox", 1.0f }, { "dess", 35 }, { "comp", 55 }, { "air", 2.0f }, { "hpf", 3 } } },
-            { "Parole / podcast",                { { "model", 6 }, { "gate", -50 }, { "drive", 20 }, { "dess", 35 }, { "comp", 60 }, { "air", 1.0f }, { "hpf", 4 } } },
-            { "Chambre bruyante (gate)",         { { "model", 1 }, { "gate", -48 }, { "drive", 20 }, { "dess", 30 }, { "comp", 35 }, { "hpf", 4 } } },
-            { "Vintage sombre (Ruban 121)",      { { "model", 7 }, { "drive", 45 }, { "dess", 10 }, { "comp", 40 }, { "air", 0 }, { "hpf", 1 } } },
+            // ---- VOIX LEAD : devant, claire, presente
+            { "LEAD - Pro polyvalente (87)",      { { "model", 1 }, { "drive", 25 }, { "prox", 0.5f }, { "dess", 35 }, { "comp", 45 }, { "air", 2.0f }, { "hpf", 2 } } },
+            { "LEAD - Afrobeats",                 { { "model", 8 }, { "drive", 30 }, { "prox", 0.5f }, { "dess", 45 }, { "comp", 55 }, { "air", 2.5f }, { "hpf", 4 } } },
+            { "LEAD - Coupe-decale",              { { "model", 4 }, { "char", 120 }, { "drive", 35 }, { "dess", 45 }, { "comp", 60 }, { "air", 2.5f }, { "hpf", 4 } } },
+            { "LEAD - Mandingue",                 { { "model", 2 }, { "drive", 35 }, { "prox", 1.0f }, { "dess", 30 }, { "comp", 45 }, { "air", 1.5f }, { "hpf", 2 } } },
+            { "LEAD - Reggae",                    { { "model", 3 }, { "drive", 40 }, { "prox", 1.5f }, { "dess", 30 }, { "comp", 45 }, { "air", 1.0f }, { "hpf", 2 } } },
+            { "LEAD - R&B douce (lampe)",         { { "model", 3 }, { "drive", 30 }, { "prox", 1.0f }, { "dess", 40 }, { "comp", 50 }, { "air", 2.5f }, { "hpf", 3 } } },
+            { "LEAD - Rap",                       { { "model", 6 }, { "drive", 35 }, { "prox", 1.5f }, { "dess", 35 }, { "comp", 60 }, { "air", 2.0f }, { "hpf", 3 } } },
+            { "LEAD - Chaude (47)",               { { "model", 2 }, { "drive", 40 }, { "prox", 1.5f }, { "dess", 25 }, { "comp", 45 }, { "air", 0.5f }, { "hpf", 1 } } },
+            { "LEAD - Brillante (800)",           { { "model", 4 }, { "drive", 30 }, { "dess", 50 }, { "comp", 50 }, { "air", 2.0f }, { "hpf", 3 } } },
+            // ---- BACKING : soutient le lead sans le cacher (moins de grave, plus serre)
+            { "BACKING - Standard",               { { "model", 1 }, { "char", 80 }, { "drive", 20 }, { "prox", -2.0f }, { "dess", 55 }, { "comp", 65 }, { "air", 1.0f }, { "hpf", 5 } } },
+            { "BACKING - Afro (repetitions)",     { { "model", 8 }, { "char", 80 }, { "drive", 25 }, { "prox", -2.5f }, { "dess", 55 }, { "comp", 65 }, { "air", 1.5f }, { "hpf", 5 } } },
+            { "BACKING - Doubles du lead",        { { "model", 4 }, { "char", 70 }, { "drive", 15 }, { "prox", -3.0f }, { "dess", 65 }, { "comp", 70 }, { "air", 0.5f }, { "hpf", 5 } } },
+            { "BACKING - Adlibs / reponses",      { { "model", 6 }, { "char", 110 }, { "drive", 45 }, { "prox", -1.0f }, { "dess", 45 }, { "comp", 70 }, { "air", 1.0f }, { "hpf", 5 } } },
+            { "BACKING - Sombre en fond",         { { "model", 7 }, { "char", 80 }, { "drive", 30 }, { "prox", -3.0f }, { "dess", 40 }, { "comp", 60 }, { "air", 0 }, { "hpf", 5 } } },
+            // ---- CHOEURS : doux, aerien, se fondent ensemble
+            { "CHOEURS - Doux et aeriens",        { { "model", 3 }, { "char", 90 }, { "drive", 15 }, { "prox", -3.0f }, { "dess", 55 }, { "comp", 55 }, { "air", 3.0f }, { "hpf", 5 } } },
+            { "CHOEURS - Gospel / eglise",        { { "model", 2 }, { "char", 80 }, { "drive", 25 }, { "prox", -1.5f }, { "dess", 45 }, { "comp", 50 }, { "air", 2.0f }, { "hpf", 4 } } },
+            { "CHOEURS - Afro (refrain en groupe)",{ { "model", 8 }, { "char", 75 }, { "drive", 20 }, { "prox", -3.0f }, { "dess", 60 }, { "comp", 60 }, { "air", 2.5f }, { "hpf", 5 } } },
+            { "CHOEURS - Mandingue (reponse)",    { { "model", 2 }, { "char", 70 }, { "drive", 20 }, { "prox", -2.5f }, { "dess", 45 }, { "comp", 55 }, { "air", 1.5f }, { "hpf", 5 } } },
+            { "CHOEURS - Harmonies serrees",      { { "model", 5 }, { "char", 70 }, { "drive", 10 }, { "prox", -4.0f }, { "dess", 65 }, { "comp", 65 }, { "air", 2.0f }, { "hpf", 5 } } },
+            // ---- AUTRES
+            { "Parole / podcast",                 { { "model", 6 }, { "gate", -50 }, { "drive", 20 }, { "dess", 35 }, { "comp", 60 }, { "air", 1.0f }, { "hpf", 4 } } },
+            { "Chambre bruyante (gate)",          { { "model", 1 }, { "gate", -48 }, { "drive", 20 }, { "dess", 30 }, { "comp", 40 }, { "hpf", 4 } } },
         };
     }
 
@@ -155,7 +169,7 @@ public:
 
         const float gateThr = p ("gate");
         const bool gateOn = gateThr > -79.5f;
-        const float drv = juce::jlimit (0.0f, 1.0f, m.baseDrive * 0.6f + p ("drive") * 0.01f * 0.8f);
+        const float drv = juce::jlimit (0.0f, 0.85f, m.baseDrive * 0.5f + p ("drive") * 0.01f * 0.7f);
         const float dess = p ("dess") * 0.01f, comp = p ("comp") * 0.01f;
         const float dsThr = -14.0f - 26.0f * dess;
         const float cThr = -6.0f - 24.0f * comp, cRatio = 1.5f + 2.5f * comp;
@@ -255,7 +269,7 @@ public:
             { "MODELE DE MICRO", 56, 62, 348, 14, 11, dim },
             { "COULEUR", 444, 18, 200, 14, 11, dim, true, false, juce::Justification::centredLeft },
             { "DYNAMIQUE", 444, 228, 200, 14, 11, dim, true, false, juce::Justification::centredLeft },
-            { "pour Takstar TAK35", 56, 404, 348, 14, 10.5f, dim },
+            { "pour Takstar TAK35  -  LATENCE 0", 56, 404, 348, 14, 10.5f, dim },
             { "DE-ESS", 868, 236, 70, 12, 9, dim },
             { "GATE", 868, 298, 70, 12, 9, dim },
             { "COMP GR", 976, 30, 212, 12, 9, dim },

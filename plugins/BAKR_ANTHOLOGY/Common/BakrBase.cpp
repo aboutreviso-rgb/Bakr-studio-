@@ -3,12 +3,12 @@
 namespace bakr
 {
 BaseProcessor::BaseProcessor (const juce::String& n, juce::AudioProcessorValueTreeState::ParameterLayout layout,
-                              std::vector<PresetDef> ps)
+                              std::vector<PresetDef> ps, bool oversample)
     : AudioProcessor (BusesProperties()
                         .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
                         .withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
       apvts (*this, nullptr, "BAKR_STATE", std::move (layout)),
-      name (n), presets (std::move (ps))
+      name (n), presets (std::move (ps)), useOS (oversample)
 {
 }
 
@@ -29,10 +29,12 @@ void BaseProcessor::prepareToPlay (double sampleRate, int block)
 
     dryWet.prepare ({ sampleRate, (juce::uint32) block, (juce::uint32) nCh });
     dryWet.setMixingRule (juce::dsp::DryWetMixingRule::linear);
-    dryWet.setWetLatency (oversampler.getLatencyInSamples());
-    setLatencySamples ((int) std::round (oversampler.getLatencyInSamples()));
+    const float lat = useOS ? oversampler.getLatencyInSamples() : 0.0f;
+    dryWet.setWetLatency (lat);
+    setLatencySamples ((int) std::round (lat));
 
-    prepareCore (sampleRate * 2.0, block * 2, nCh);
+    if (useOS) prepareCore (sampleRate * 2.0, block * 2, nCh);
+    else       prepareCore (sampleRate, block, nCh);
 }
 
 void BaseProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&)
@@ -52,9 +54,13 @@ void BaseProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBu
     dryWet.pushDrySamples (block);
 
     grAcc = { 0.0f, 0.0f };
-    auto os = oversampler.processSamplesUp (block);
-    processCore (os, fs * 2.0);
-    oversampler.processSamplesDown (block);
+    if (useOS)
+    {
+        auto os = oversampler.processSamplesUp (block);
+        processCore (os, fs * 2.0);
+        oversampler.processSamplesDown (block);
+    }
+    else processCore (block, fs);
 
     dryWet.mixWetSamples (block);
 
