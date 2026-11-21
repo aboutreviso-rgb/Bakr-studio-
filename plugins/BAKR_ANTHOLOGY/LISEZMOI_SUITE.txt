@@ -10,3 +10,4 @@ Barre du bas : presets (fleches ou menu) et comparaison A / B.
 Ces versions remplacent les anciennes dans C:\Program Files\Common Files\VST3\BAKR\.
 Attention : un projet FL Studio enregistre avec l ancienne version doit etre regle a nouveau.
 - BAKR FATBOX : compresseur / saturateur 2 canaux (INPUT, WARMTH, TRANNY, BUSS / TRACK / SPANK, THRESHOLD, ATTACK, RELEASE, HP SIDE FILT, LF SAT, LINK)
+- BAKR CALIBRE : calibration automatique des enceintes (HS8) avec ton micro. Voir LISEZMOI_CALIBRE.

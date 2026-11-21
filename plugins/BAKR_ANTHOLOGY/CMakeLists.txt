@@ -59,6 +59,28 @@ bakr_plugin(BAKR_TUBE        "BAKR TUBE"        Btb2 Plugins/Tube.cpp)
 bakr_plugin(BAKR_MASTER      "BAKR MASTER"      Bms2 Plugins/Master.cpp)
 bakr_plugin(BAKR_FATBOX      "BAKR FATBOX"      Bfbx Plugins/FatBox.cpp)
 
+# BAKR CALIBRE : calibration automatique des enceintes (HS8) — mesure + correction
+juce_add_plugin(BAKR_CALIBRE
+    COMPANY_NAME "BAKR"
+    PLUGIN_MANUFACTURER_CODE Bakr
+    PLUGIN_CODE Bcal
+    FORMATS VST3
+    PRODUCT_NAME "BAKR CALIBRE"
+    IS_SYNTH FALSE
+    NEEDS_MIDI_INPUT FALSE
+    NEEDS_MIDI_OUTPUT FALSE
+    IS_MIDI_EFFECT FALSE
+    EDITOR_WANTS_KEYBOARD_FOCUS FALSE
+    COPY_PLUGIN_AFTER_BUILD FALSE
+    VST3_CATEGORIES Fx Analyzer EQ)
+juce_generate_juce_header(BAKR_CALIBRE)
+target_sources(BAKR_CALIBRE PRIVATE Plugins/Calibre/Calibre.cpp ${COMMON_SOURCES})
+target_compile_definitions(BAKR_CALIBRE PUBLIC
+    JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0 JUCE_DISPLAY_SPLASH_SCREEN=0)
+target_link_libraries(BAKR_CALIBRE
+    PRIVATE juce::juce_audio_utils juce::juce_dsp
+    PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags juce::juce_recommended_warning_flags)
+
 # Outil de test (captures d'écran + test audio), pas compilé pour Windows
 option(BAKR_SNAP "Construire l'outil de capture" OFF)
 if(BAKR_SNAP)
@@ -69,4 +91,9 @@ if(BAKR_SNAP)
         target_compile_definitions(Snap_${P} PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 SNAP_NAME="${P}" JucePlugin_Name="${P}")
         target_link_libraries(Snap_${P} PRIVATE juce::juce_audio_utils juce::juce_dsp)
     endforeach()
+    juce_add_console_app(Test_Calibre PRODUCT_NAME "Test_Calibre")
+    juce_generate_juce_header(Test_Calibre)
+    target_sources(Test_Calibre PRIVATE Tools/TestCalibre.cpp Plugins/Calibre/Calibre.cpp ${COMMON_SOURCES})
+    target_compile_definitions(Test_Calibre PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 CALIBRE_TEST=1 JUCE_MODAL_LOOPS_PERMITTED=1 JucePlugin_Name="BAKR CALIBRE")
+    target_link_libraries(Test_Calibre PRIVATE juce::juce_audio_utils juce::juce_dsp)
 endif()

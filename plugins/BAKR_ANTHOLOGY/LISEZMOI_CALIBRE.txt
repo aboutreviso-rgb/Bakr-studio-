@@ -1,0 +1,59 @@
+BAKR CALIBRE - calibration automatique des enceintes (pense pour les Yamaha HS8)
+==============================================================================
+
+Le plugin joue un balayage de frequences dans chaque enceinte, ecoute la piece avec ton micro,
+puis corrige automatiquement : EQ (bosses et creux de la piece), niveau gauche/droite et
+delai gauche/droite (si tu n'es pas exactement au milieu).
+
+UN SEUL plugin, DEUX roles (boutons en haut a droite) :
+  ENCEINTES (Master)      -> sur la piste MASTER. Lance les mesures et applique la correction.
+  MICRO (piste du micro)  -> sur la piste du mixeur ou arrive ton micro. Ne laisse sortir aucun son.
+
+AVANT DE COMMENCER (HS8)
+  - Les 2 HS8 au meme volume (bouton LEVEL a l'arriere), switchs ROOM CONTROL et HIGH TRIM a 0.
+  - Enceintes en triangle avec ta place, tweeters a hauteur des oreilles.
+  - Volume d'ecoute normal (pas fort). Silence dans la piece pendant les mesures.
+  - FL Studio : Options > Audio : mets ton interface audio (ASIO), et decoche "Auto close device".
+
+INSTALLATION DANS FL STUDIO
+  1. Piste du micro : choisis une piste libre du mixeur (ex. Insert 10), en haut a droite
+     selectionne l'entree de ton micro. Ajoute BAKR CALIBRE, clique MICRO (piste du micro).
+  2. Piste Master : ajoute BAKR CALIBRE (en DERNIER dans la liste des effets du Master),
+     il est en mode ENCEINTES par defaut. Le point vert "connecte" doit s'allumer (etape 1).
+
+MESURER
+  Etape 1 - MICRO : choisis le type de micro. Avec un micro voix, prends
+            "Statique voix" (micro a condensateur) ou "Dynamique" selon ton micro.
+            Avec un micro de mesure (UMIK-1, ECM8000...) tu peux charger son fichier .txt.
+  Etape 2 - NIVEAU : clique BRUIT ROSE. Regle le gain du micro sur ta carte son pour que le
+            vumetre soit vers -20 dB (orange), jamais au rouge. Reclique pour arreter.
+  Etape 3 - MESURER : micro a ta place de mixage, a hauteur des oreilles, pointe vers le plafond.
+            Clique MESURER (environ 14 secondes : gauche puis droite). Ne bouge pas.
+            Deplace le micro de 20-30 cm (devant, derriere, cotes) et refais : 3 a 5 positions.
+
+RESULTAT
+  - Courbes : bleu = gauche, rose = droite, pointilles = cible, orange = correction,
+    vert = resultat attendu. Boutons G / D / G+D pour voir chaque enceinte.
+  - REGLAGES HS8 CONSEILLES : si le plugin conseille ROOM CONTROL -2/-4 dB ou HIGH TRIM,
+    regle les switchs a l'arriere des HS8, clique EFFACER tout, et refais les mesures.
+  - Bouton CORRECTION : compare avec / sans.
+
+REGLAGES
+  QUANTITE   : force de la correction (90 % conseille).
+  BOOST MAX  : le plugin remonte peu les creux (un creux de piece ne se corrige pas en boostant).
+  CUT MAX    : coupe maximum des bosses (les basses qui resonnent).
+  FREQ MIN   : sous 40 Hz les HS8 ne descendent plus, on ne corrige pas.
+  FREQ MAX   : 500 Hz conseille avec un micro voix. Avec un vrai micro de mesure + fichier, tu
+               peux monter jusqu'a 2-20 kHz.
+  CIBLE      : Plat / Studio (pente douce, conseille) / Basses+ (Afro, Rap).
+  NIVEAU G/D et DELAI G/D : compensent une enceinte plus forte ou plus loin.
+  BYPASS EXPORT : la correction se coupe toute seule pendant l'export du morceau.
+
+IMPORTANT
+  La correction est faite pour TES OREILLES dans TA piece : elle ne doit pas etre dans le mix final.
+  BYPASS EXPORT est active par defaut. Par securite, coupe CORRECTION avant d'exporter
+  si tu as un doute. La calibration est enregistree avec le projet (garde-la dans ton template).
+  Le plugin n'ajoute aucune latence et ne monte jamais le volume (sortie auto).
+
+Si "non detecte" : verifie que la piste du micro recoit bien le son (son vumetre bouge)
+et que FL Studio ne met pas la piste en pause (clic droit sur le plugin : decoche "Smart disable").
