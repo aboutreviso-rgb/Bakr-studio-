@@ -58,6 +58,7 @@ bakr_plugin(BAKR_CHANNEL     "BAKR CHANNEL"     Bch2 Plugins/Channel.cpp)
 bakr_plugin(BAKR_TUBE        "BAKR TUBE"        Btb2 Plugins/Tube.cpp)
 bakr_plugin(BAKR_MASTER      "BAKR MASTER"      Bms2 Plugins/Master.cpp)
 bakr_plugin(BAKR_FATBOX      "BAKR FATBOX"      Bfbx Plugins/FatBox.cpp)
+bakr_plugin(BAKR_TAK35_PRO   "BAKR TAK35 PRO"   Btk3 Plugins/TakPro.cpp)
 
 # BAKR CALIBRE : calibration automatique des enceintes (HS8) — mesure + correction
 juce_add_plugin(BAKR_CALIBRE
@@ -84,7 +85,7 @@ target_link_libraries(BAKR_CALIBRE
 # Outil de test (captures d'écran + test audio), pas compilé pour Windows
 option(BAKR_SNAP "Construire l'outil de capture" OFF)
 if(BAKR_SNAP)
-    foreach(P AmberOpto KaratStrip VariMuSt Bus4 LinePre BlueComp Leveler Fet Channel Tube Master FatBox)
+    foreach(P AmberOpto KaratStrip VariMuSt Bus4 LinePre BlueComp Leveler Fet Channel Tube Master FatBox TakPro)
         juce_add_console_app(Snap_${P} PRODUCT_NAME "Snap_${P}")
         juce_generate_juce_header(Snap_${P})
         target_sources(Snap_${P} PRIVATE Tools/Snap.cpp Plugins/${P}.cpp ${COMMON_SOURCES})

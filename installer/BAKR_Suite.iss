@@ -31,6 +31,7 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
+Name: "tak35pro"; Description: "BAKR TAK35 PRO - rend le micro Takstar TAK35 plus professionnel"; Types: full
 Name: "calibre"; Description: "BAKR CALIBRE - calibration automatique des enceintes (Yamaha HS8)"; Types: full
 Name: "fatbox"; Description: "BAKR FATBOX - compresseur / saturateur 2 canaux (Warmth, Tranny, Buss/Track/Spank)"; Types: full
 Name: "nleveler"; Description: "BAKR LEVELER (nouveau look) - compresseur opto a lampe"; Types: full
@@ -52,6 +53,7 @@ Name: "ha81a";   Description: "HA-81A EQ - Coulibaly Edition"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
+Source: "..\pkg_suite\VST3\BAKR TAK35 PRO.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR TAK35 PRO.vst3"; Components: tak35pro; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR CALIBRE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR CALIBRE.vst3"; Components: calibre; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR FATBOX.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR FATBOX.vst3"; Components: fatbox; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR LEVELER.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR\BAKR LEVELER.vst3"; Components: nleveler; Flags: ignoreversion recursesubdirs createallsubdirs

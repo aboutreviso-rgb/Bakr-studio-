@@ -1,0 +1,41 @@
+BAKR TAK35 PRO - rendre le micro Takstar TAK35 plus professionnel
+==================================================================
+
+A mettre en PREMIER effet sur la piste de ta voix enregistree avec le TAK35
+(avant BAKR TUNE / autotune et les autres effets).
+
+ORDRE DU TRAITEMENT
+  Coupe-bas -> Gate -> Correction TAK35 -> Modele de micro -> Proximite -> Preampli
+  -> De-esser -> Compression -> Air -> Sortie.   Aucune latence.
+
+MODELE DE MICRO (9 boutons)
+  TAK35         : le son du micro corrige, sans couleur ajoutee.
+  STUDIO 87     : polyvalent, clair et equilibre (style grand micro allemand de studio).
+  LAMPE 47      : chaud, epais, medium en avant (micro a lampe vintage).
+  LAMPE 12      : soyeux, aigus aeriens (lampe, voix douces).
+  BRILLANT 800  : tres brillant et present (style des micros a lampe hip-hop / R&B).
+  STUDIO 103    : moderne, presence marquee vers 8 kHz.
+  BROADCAST 7   : grave rond, aigus doux (micro dynamique radio / rap).
+  RUBAN 121     : sombre et vintage, aigus tres doux.
+  AFRO LEAD     : voix lead moderne Afrobeats : grave nettoye, presence + air.
+  Ce sont des couleurs inspirees de ces micros, pas des copies exactes.
+
+REGLAGES
+  CORRECTION TAK35 : enleve la brillance un peu dure du TAK35 (100 % conseille).
+  INTENSITE        : force de la couleur du modele (100 % = normal, 150 % = exagere).
+  PROXIMITE        : LOIN = moins de grave, PRES = voix plus grosse (effet "bouche collee").
+  PREAMPLI         : chaleur et harmoniques (lampe ou transfo selon le modele).
+  COUPE-BAS        : enleve les grondements (80-100 Hz conseille pour une voix).
+  AIR              : brillance douce au-dessus de 12 kHz.
+  GATE             : OFF par defaut. Monte-le si on entend le souffle ou la piece entre les phrases.
+  DE-ESSER         : calme les "S" et "CH" (30-45 %).
+  COMPRESSION      : voix plus reguliere et devant (35-55 %). Le volume est compense.
+  SORTIE / MIX     : volume final / dosage avec le son d'origine.
+
+CONSEILS POUR ENREGISTRER AVEC LE TAK35
+  - Alimentation fantome 48V obligatoire. Chante face au cote "TAK35" (symbole coeur).
+  - 15-20 cm de la bouche, avec un filtre anti-pop. Pics entre -12 et -6 dB a l'enregistrement.
+  - Pres d'un lit, rideaux ou couverture derriere toi : moins de reverb de la piece.
+
+Presets : Voix lead, chaude, brillante, Afrobeats, Mandingue, Coupe-decale, Reggae,
+Choeurs, Rap, Parole/podcast, Chambre bruyante, Vintage.

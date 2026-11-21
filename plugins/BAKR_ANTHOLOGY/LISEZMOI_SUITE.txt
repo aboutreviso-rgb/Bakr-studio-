@@ -11,3 +11,4 @@ Ces versions remplacent les anciennes dans C:\Program Files\Common Files\VST3\BA
 Attention : un projet FL Studio enregistre avec l ancienne version doit etre regle a nouveau.
 - BAKR FATBOX : compresseur / saturateur 2 canaux (INPUT, WARMTH, TRANNY, BUSS / TRACK / SPANK, THRESHOLD, ATTACK, RELEASE, HP SIDE FILT, LF SAT, LINK)
 - BAKR CALIBRE : calibration automatique des enceintes (HS8) avec ton micro. Voir LISEZMOI_CALIBRE.
+- BAKR TAK35 PRO : rend le micro Takstar TAK35 plus professionnel. Voir LISEZMOI_TAK35_PRO.
