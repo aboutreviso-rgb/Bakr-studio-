@@ -106,7 +106,8 @@ jobs:
             @{ vst = "build_anth/BAKR_MASTER_artefacts/Release/VST3/BAKR MASTER.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR MASTER" },
             @{ vst = "build_anth/BAKR_FATBOX_artefacts/Release/VST3/BAKR FATBOX.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_SUITE.txt"; name = "BAKR FATBOX" },
             @{ vst = "build_anth/BAKR_CALIBRE_artefacts/Release/VST3/BAKR CALIBRE.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_CALIBRE.txt"; name = "BAKR CALIBRE" },
-            @{ vst = "build_anth/BAKR_TAK35_PRO_artefacts/Release/VST3/BAKR TAK35 PRO.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_TAK35_PRO.txt"; name = "BAKR TAK35 PRO" }
+            @{ vst = "build_anth/BAKR_TAK35_PRO_artefacts/Release/VST3/BAKR TAK35 PRO.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_TAK35_PRO.txt"; name = "BAKR TAK35 PRO" },
+            @{ vst = "build_anth/BAKR_INSTINCT_artefacts/Release/VST3/BAKR INSTINCT.vst3"; doc = "plugins/BAKR_ANTHOLOGY/LISEZMOI_INSTINCT.txt"; name = "BAKR INSTINCT" }
           )
           foreach ($it in $items) {
             Copy-Item -Recurse $it.vst pkg_suite/VST3/

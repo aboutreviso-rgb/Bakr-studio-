@@ -82,6 +82,29 @@ target_link_libraries(BAKR_CALIBRE
     PRIVATE juce::juce_audio_utils juce::juce_dsp
     PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags juce::juce_recommended_warning_flags)
 
+# BAKR INSTINCT : assistant vocal qui écoute la voix et règle la chaîne
+juce_add_plugin(BAKR_INSTINCT
+    COMPANY_NAME "BAKR"
+    PLUGIN_MANUFACTURER_CODE Bakr
+    PLUGIN_CODE Bins
+    FORMATS VST3
+    PRODUCT_NAME "BAKR INSTINCT"
+    IS_SYNTH FALSE
+    NEEDS_MIDI_INPUT FALSE
+    NEEDS_MIDI_OUTPUT FALSE
+    IS_MIDI_EFFECT FALSE
+    EDITOR_WANTS_KEYBOARD_FOCUS FALSE
+    COPY_PLUGIN_AFTER_BUILD FALSE
+    VST3_CATEGORIES Fx Dynamics EQ)
+juce_generate_juce_header(BAKR_INSTINCT)
+target_sources(BAKR_INSTINCT PRIVATE Plugins/Instinct/Instinct.cpp ${COMMON_SOURCES})
+target_compile_options(BAKR_INSTINCT PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/utf-8>)
+target_compile_definitions(BAKR_INSTINCT PUBLIC
+    JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0 JUCE_DISPLAY_SPLASH_SCREEN=0)
+target_link_libraries(BAKR_INSTINCT
+    PRIVATE juce::juce_audio_utils juce::juce_dsp
+    PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags juce::juce_recommended_warning_flags)
+
 # Outil de test (captures d'écran + test audio), pas compilé pour Windows
 option(BAKR_SNAP "Construire l'outil de capture" OFF)
 if(BAKR_SNAP)
@@ -97,4 +120,9 @@ if(BAKR_SNAP)
     target_sources(Test_Calibre PRIVATE Tools/TestCalibre.cpp Plugins/Calibre/Calibre.cpp ${COMMON_SOURCES})
     target_compile_definitions(Test_Calibre PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 CALIBRE_TEST=1 JUCE_MODAL_LOOPS_PERMITTED=1 JucePlugin_Name="BAKR CALIBRE")
     target_link_libraries(Test_Calibre PRIVATE juce::juce_audio_utils juce::juce_dsp)
+    juce_add_console_app(Test_Instinct PRODUCT_NAME "Test_Instinct")
+    juce_generate_juce_header(Test_Instinct)
+    target_sources(Test_Instinct PRIVATE Tools/TestInstinct.cpp Plugins/Instinct/Instinct.cpp ${COMMON_SOURCES})
+    target_compile_definitions(Test_Instinct PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 INSTINCT_TEST=1 JUCE_MODAL_LOOPS_PERMITTED=1 JucePlugin_Name="BAKR INSTINCT")
+    target_link_libraries(Test_Instinct PRIVATE juce::juce_audio_utils juce::juce_dsp)
 endif()

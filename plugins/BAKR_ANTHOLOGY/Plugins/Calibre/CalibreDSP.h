@@ -326,6 +326,9 @@ namespace calib
             for (int i = 0; i < kGrid; ++i)
             {
                 if (! use[(size_t) i]) continue;
+                bool near = false;   // pas deux cloches à moins d'1/4 d'octave (elles se battraient)
+                for (auto& bd : bands) near = near || std::abs (std::log2 (gridFreq (i) / bd.f)) < 0.25;
+                if (near) continue;
                 const double r = want[(size_t) i] - corr[(size_t) i];
                 const double s = std::abs (r) * (r < 0 ? 1.0 : 0.7);
                 if (s > best) { best = s; at = i; }

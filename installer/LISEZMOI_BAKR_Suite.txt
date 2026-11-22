@@ -11,6 +11,7 @@ METHODE 2 (sans assistant) : dézippe BAKR_Suite_Windows.zip
   puis double-clique sur Installer_BAKR_Suite.bat (Desinstaller_BAKR_Suite.bat pour enlever).
 
 Plugins inclus :
+  BAKR INSTINCT (assistant vocal : ecoute la voix et regle la chaine, notice dans Notices)
   BAKR TAK35 PRO (micro Takstar TAK35 plus professionnel, notice dans Notices)
   BAKR CALIBRE (calibration automatique des enceintes HS8, notice dans Notices)
   BAKR VOXCHAIN · BAKR GUITAR (instrument) · BAKR INFLATE · BAKR TUBECOMP · BAKR 81

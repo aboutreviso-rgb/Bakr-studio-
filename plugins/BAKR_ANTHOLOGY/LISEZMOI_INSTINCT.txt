@@ -1,0 +1,28 @@
+BAKR INSTINCT - assistant vocal qui ecoute ta voix et regle la chaine tout seul
+===============================================================================
+
+A mettre sur la piste de ta voix (apres BAKR TAK35 PRO si tu l'utilises, avant la reverb).
+Aucune latence.
+
+UTILISATION
+  1. Choisis le STYLE : Naturel, Pop / R&B, Afro (Afrobeats, Coupe-decale), Mandingue / Tradi,
+     Rap, Douce / Choeurs.
+  2. Clique ECOUTER puis lance la lecture dans FL Studio sur un passage chante (refrain ideal).
+     La sphere devient violette et la forme d'onde se colore pendant l'ecoute (12 secondes de voix).
+  3. A la fin, INSTINCT affiche ce qu'il a trouve et regle tout :
+       Hauteur     : la note moyenne de la voix (grave / medium / aigue)
+       Tonalite    : ce qu'il monte et ce qu'il coupe dans l'EQ (courbe affichee)
+       Sibilance   : force des "S" et seuil du de-esser
+       Compression : ratio, seuil, attaque et relachement adaptes au debit de la voix
+       Coupe-bas   : place sous la note la plus basse chantee
+     Le niveau de sortie est aussi ajuste automatiquement.
+  4. Bouton APRES / AVANT : compare la voix traitee et l'original.
+  5. Ajuste si besoin avec les boutons du bas, ou clique REECOUTER sur un autre passage.
+
+BOUTONS
+  INTENSITE (force de l'EQ trouvee), COUPE-BAS, DE-ESSER (seuil), COMP SEUIL, RATIO, ATTAQUE,
+  RELACHEMENT, CHALEUR (saturation douce), SORTIE, MIX.
+  Une securite douce empeche la sortie de depasser -1 dBFS.
+
+Astuce : ecoute le passage le plus fort et le plus representatif de la chanson.
+Les reglages sont sauvegardes avec le projet.

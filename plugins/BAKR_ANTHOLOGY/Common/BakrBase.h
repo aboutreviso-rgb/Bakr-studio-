@@ -89,7 +89,8 @@ namespace bakr
             {
                 if (u == "Hz" && v >= 1000.0f) return juce::String (v / 1000.0f, 2) + " kHz";
                 if (u == "ms" && v >= 1000.0f) return juce::String (v / 1000.0f, 2) + " s";
-                return juce::String (v, decimals) + (u.isEmpty() ? "" : " " + u);
+                const juce::String num = decimals <= 0 ? juce::String (juce::roundToInt (v)) : juce::String (v, decimals);
+                return num + (u.isEmpty() ? "" : " " + u);
             })));
     }
     inline void addChoice (Layout& l, const char* id, const char* nm, juce::StringArray c, int def)
