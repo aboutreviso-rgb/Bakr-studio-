@@ -11,6 +11,7 @@ METHODE 2 (sans assistant) : dézippe BAKR_Suite_Windows.zip
   puis double-clique sur Installer_BAKR_Suite.bat (Desinstaller_BAKR_Suite.bat pour enlever).
 
 Plugins inclus :
+  BAKR MASSIVE (egaliseur passif stereo a lampes, notice dans Notices)
   BAKR CASQUE (calibration du casque DT 880 + emulation d'enceintes, notice dans Notices)
   BAKR INSTINCT (assistant vocal : ecoute la voix et regle la chaine, notice dans Notices)
   BAKR TAK35 PRO (micro Takstar TAK35 plus professionnel, notice dans Notices)

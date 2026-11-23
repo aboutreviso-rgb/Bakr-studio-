@@ -31,6 +31,7 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
+Name: "massive"; Description: "BAKR MASSIVE - egaliseur passif stereo a lampes 4 bandes"; Types: full
 Name: "casque"; Description: "BAKR CASQUE PRO - calibration casque DT 880, enceintes et pieces virtuelles, controle du mix"; Types: full
 Name: "instinct"; Description: "BAKR INSTINCT - assistant vocal qui ecoute ta voix et regle la chaine"; Types: full
 Name: "tak35pro"; Description: "BAKR TAK35 PRO - rend le micro Takstar TAK35 plus professionnel"; Types: full
@@ -55,6 +56,7 @@ Name: "ha81a";   Description: "HA-81A EQ - Coulibaly Edition"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
+Source: "..\pkg_suite\VST3\BAKR MASSIVE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR MASSIVE.vst3"; Components: massive; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR CASQUE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR CASQUE.vst3"; Components: casque; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR INSTINCT.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR INSTINCT.vst3"; Components: instinct; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR TAK35 PRO.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR TAK35 PRO.vst3"; Components: tak35pro; Flags: ignoreversion recursesubdirs createallsubdirs

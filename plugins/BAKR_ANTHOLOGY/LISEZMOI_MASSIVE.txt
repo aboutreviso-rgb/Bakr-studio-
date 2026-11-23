@@ -1,0 +1,25 @@
+BAKR MASSIVE - egaliseur passif stereo a lampes, 4 bandes par canal
+===================================================================
+(inspire d'un celebre EQ passif de mastering - son large, doux et musical)
+
+PAR BANDE (4 bandes par canal : 22-1K, 82-3K9, 220-10K, 560-27K)
+  CUT / OUT / BOOST : baisse, rien, ou monte.
+  SHELF (levier)    : en haut = plateau (shelf), en bas = cloche (bell).
+                      Bandes 1-2 = plateau grave, bandes 3-4 = plateau aigu.
+  GAIN 0-20 dB      : quantite.
+  BANDWIDTH         : largeur de la cloche (gauche = large, droite = etroit).
+                      En SHELF : a droite le plateau fait une petite bosse / un creux
+                      (comme les EQ a lampes vintage).
+  FREQUENCY HZ      : 11 crans par bande.
+  Comme un vrai EQ passif, la cloche s'elargit quand le gain est faible -> toujours musical.
+
+AU CENTRE (par canal)
+  IN : active l'EQ (sinon seul l'etage a lampe reste, pour la couleur).
+  GAIN -6 / +4 dB : etage de sortie a lampe + transformateur.
+  LOW PASS (OFF, 18K ... 6K) : adoucit le haut.   HIGH PASS (OFF, 22 ... 220) : nettoie le bas.
+  LINK : le canal 2 suit le canal 1 (stereo). Desactive LINK pour regler G et D separement.
+  POWER : on / off.
+
+PRESETS : Master (Air & poids, Afrobeats, Coupe-decale, Mandingue, Reggae, Mastering doux),
+Voix (Air & presence, Chaleur), Basse, Kick, Bus instru, Pultec style.
+Astuce mastering : de petits gains (1 a 3 dB) suffisent avec cet EQ.
