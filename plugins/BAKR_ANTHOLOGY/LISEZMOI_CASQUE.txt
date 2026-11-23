@@ -1,26 +1,37 @@
-BAKR CASQUE - calibration du casque + emulation d'enceintes (pense pour le beyerdynamic DT 880)
-==============================================================================================
+BAKR CASQUE PRO - calibration du casque + enceintes et pieces virtuelles + controle du mix
+==========================================================================================
+(pense pour le beyerdynamic DT 880)
 
 A mettre en DERNIER sur la piste MASTER, seulement quand tu ecoutes au casque.
-(Si tu ecoutes sur les HS8, coupe-le ou mets-le en BYPASS.)  Aucune latence.
+(Sur les HS8 : coupe-le ou BYPASS.)  Aucune latence.
 
-HEADPHONE CALIBRATION (disque de gauche)
-  - Choisis ton casque : DT 880 (32 / 250 / 600 ohms), DT 990 PRO, DT 770 PRO, ou Aucune correction.
-  - Le plugin corrige la courbe du casque : il calme le pic "beyer" vers 6 kHz (les S et
-    cymbales trop brillants) et remonte le grave qui manque sous 60 Hz.
-  - Courbes : pointilles = casque d'origine, rose = correction, bleu = resultat.
-  - FORCE : 100 % = correction complete. Bouton power = on / off pour comparer.
-  - Les courbes des casques sont des estimations moyennes (pas une mesure de TON casque).
+1. HEADPHONE CALIBRATION (gauche)
+  CASQUE : DT 880 (32 / 250 / 600 ohms), DT 990 PRO, DT 770 PRO, ou Aucune correction.
+  CIBLE  : Studio neutre (pour mixer) / Harman (grave +, comme beaucoup d'auditeurs) / Chaude (douce).
+  FORCE  : quantite de correction.  BASS / TREBLE : ton gout (+/- 6 dB).
+  Courbes : pointilles blancs = casque d'origine, verts = cible, rose = correction, bleu = resultat.
+  Le pic "beyer" vers 6 kHz est calme, le grave sous 60 Hz est remonte.
+  (Courbes de casque = estimations moyennes, pas une mesure de TON casque.)
 
-LOUDSPEAKER EMULATION (disque de droite)
-  - Tu entends comme devant 2 enceintes : le son de gauche arrive aussi un peu a l'oreille
-    droite (avec le bon retard et l'ombre de la tete), comme dans une vraie piece.
-  - ANGLE (fleches) : 60 deg = triangle stereo standard (comme tes HS8). Plus grand = plus large.
-  - ROOM : DRY = enceintes sans piece, WET = plus de pieces (reflexions + petite reverb).
-  - Bouton power = on / off.
+2. LOUDSPEAKER EMULATION (droite)
+  Modele de tete : le son de chaque enceinte arrive aux 2 oreilles (retard, ombre de la tete,
+  oreille) comme dans une vraie piece -> moins de fatigue, stereo plus realiste.
+  ENCEINTES : Neutre, Moniteurs 8" (style HS8), Moniteur blanc (style NS-10, medium en avant),
+              Petit cube mono (comme un telephone / une petite enceinte), Hi-fi salon.
+  PIECE     : Studio traite, Grand studio, Salon, Voiture, Club, Chambre.
+  ANGLE     : 60 deg = triangle stereo standard.  ROOM : quantite de piece (DRY -> WET).
+  Astuce : verifie ton mix sur "Petit cube mono" + "Voiture" : si la voix et la basse
+  s'entendent bien partout, ton mix est bon.
 
-SAFE MODE
-  - Coupe automatiquement le plugin pendant l'export du morceau (le mix exporte ne doit pas
-    etre corrige pour ton casque) et limite la sortie a -1 dB pour proteger tes oreilles.
+3. ECOUTE (centre)
+  STEREO / MONO (verifie la compatibilite mono) / GAUCHE / DROITE / SIDE (seulement ce qui est
+  sur les cotes : reverb, largeur) / INVERSER (gauche <-> droite).  DIM -20 dB : baisse vite.
 
-BYPASS : compare avec le son original.   VOLUME : volume d'ecoute.
+4. MESURES DU MIX (en bas, sur le mix AVANT correction = ce qui sera exporte)
+  LUFS court terme (3 s) : streaming autour de -14, club / Afro fort autour de -8.
+  Crete : rouge = ca sature.
+  Correlation : +1 = mono, 0 = tres large, negatif = probleme de phase (verifie en MONO).
+
+SAFE MODE : coupe le plugin pendant l'export et limite la sortie a -1 dB (protege tes oreilles).
+BYPASS : son original.   VOLUME : volume d'ecoute.
+Changer un reglage ne fait pas de clic (fondu automatique).

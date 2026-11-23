@@ -31,7 +31,7 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
-Name: "casque"; Description: "BAKR CASQUE - calibration du casque (DT 880) + emulation d'enceintes"; Types: full
+Name: "casque"; Description: "BAKR CASQUE PRO - calibration casque DT 880, enceintes et pieces virtuelles, controle du mix"; Types: full
 Name: "instinct"; Description: "BAKR INSTINCT - assistant vocal qui ecoute ta voix et regle la chaine"; Types: full
 Name: "tak35pro"; Description: "BAKR TAK35 PRO - rend le micro Takstar TAK35 plus professionnel"; Types: full
 Name: "calibre"; Description: "BAKR CALIBRE - calibration automatique des enceintes (Yamaha HS8)"; Types: full
