@@ -20,6 +20,18 @@ AU CENTRE (par canal)
   LINK : le canal 2 suit le canal 1 (stereo). Desactive LINK pour regler G et D separement.
   POWER : on / off.
 
+BANDE DU BAS (fonctions pro)
+  COURBE    : la reponse de l'EQ en direct (bleu = gauche / MID, orange = droite / SIDE).
+  MODE      : STEREO ou M/S. En M/S, le canal 1 traite le CENTRE (voix, kick, basse) et le
+              canal 2 les COTES (largeur, reverb) : ex. ajouter de l'air seulement sur les cotes.
+  COULEUR   : quantite de lampe + transformateur (0 = propre, MAX = chaud et dense).
+  AUTO GAIN : compense le volume ajoute par l'EQ -> tu compares a volume egal (ne te fais pas
+              avoir par "plus fort = mieux").
+  ANALOG    : petites differences entre gauche et droite comme un vrai appareil (plus large,
+              plus vivant). Coupe-le pour une precision parfaite.
+  0.5 dB    : gains par crans de 0.5 dB comme la version mastering (reglages reproductibles).
+  VU G / MID et D / SIDE : niveau de sortie.
+
 PRESETS : Master (Air & poids, Afrobeats, Coupe-decale, Mandingue, Reggae, Mastering doux),
 Voix (Air & presence, Chaleur), Basse, Kick, Bus instru, Pultec style.
 Astuce mastering : de petits gains (1 a 3 dB) suffisent avec cet EQ.

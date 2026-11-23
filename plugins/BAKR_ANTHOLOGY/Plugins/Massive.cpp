@@ -80,6 +80,11 @@ public:
         }
         addBool (l, "link", "Link", true);
         addBool (l, "power", "Power", true);
+        addChoice (l, "ms", "Mode", { "STEREO", "MID/SIDE" }, 0);
+        addFloat (l, "color", "Couleur lampe", 0, 100, 30, "%", 0, 0);
+        addBool (l, "autoGain", "Auto gain", false);
+        addBool (l, "analog", "Tolerances analogiques", true);
+        addBool (l, "steps", "Crans 0.5 dB", false);
         return l;
     }
 
@@ -128,11 +133,13 @@ public:
     }
 
     // bande -> filtre : passif = le Q s'élargit quand le gain est faible
-    static void setBand (Biquad& bq, double fs, int b, float g, int mode, bool shelf, float bw, int fi)
+public:
+    static void setBand (Biquad& bq, double fs, int b, float g, int mode, bool shelf, float bw, int fi, bool steps = false, double fMul = 1.0, double gMul = 1.0)
     {
+        if (steps) g = std::round (g * 2.0f) * 0.5f;   // version mastering : crans de 0.5 dB
         if (mode == 1 || g < 0.05f) { bq.identity(); return; }
-        const double gain = mode == 2 ? g : -g;
-        const double f = juce::jmin ((double) kFreq[b][juce::jlimit (0, 10, fi)], fs * 0.45);
+        const double gain = (mode == 2 ? g : -g) * gMul;
+        const double f = juce::jmin ((double) kFreq[b][juce::jlimit (0, 10, fi)] * fMul, fs * 0.45);
         const double t = bw / 10.0;
         if (shelf)
         {
@@ -147,9 +154,47 @@ public:
         }
     }
 
+    // réponse d'un biquad (dB) — pour l'auto gain et la courbe affichée
+    static double magDb (const Biquad& q, double f, double fs)
+    {
+        const double w = 2.0 * juce::MathConstants<double>::pi * f / fs;
+        const std::complex<double> z1 = std::polar (1.0, -w), z2 = z1 * z1;
+        const auto num = (double) q.b0 + (double) q.b1 * z1 + (double) q.b2 * z2, den = 1.0 + (double) q.a1 * z1 + (double) q.a2 * z2;
+        return 20.0 * std::log10 (std::abs (num) / std::abs (den) + 1e-12);
+    }
+    static constexpr int kCurve = 160;
+    static double curveFreq (int i) { return 20.0 * std::pow (1000.0, i / (double) (kCurve - 1)); }
+
+    // courbes des 2 canaux (pour l'affichage), calculées sur le fil des messages
+    void computeCurves (std::array<std::array<float, kCurve>, 2>& out)
+    {
+        const double fs = 96000.0;
+        const bool ms = p ("ms") > 0.5f, link = p ("link") > 0.5f && ! ms;
+        for (int c = 0; c < 2; ++c)
+        {
+            const auto& q = prm[(size_t) (link ? 0 : c)];
+            std::array<Biquad, 7> f;
+            const bool tol = p ("analog") > 0.5f && c == 1 && ! ms;
+            for (int b = 0; b < 4; ++b)
+                setBand (f[(size_t) b], fs, b, q.g[(size_t) b]->load(), (int) q.m[(size_t) b]->load(), q.sh[(size_t) b]->load() > 0.5f,
+                         q.bw[(size_t) b]->load(), (int) q.f[(size_t) b]->load(), p ("steps") > 0.5f, tol ? 1.012 : 1.0, tol ? 0.97 : 1.0);
+            const float hp = kHp[juce::jlimit (0, 5, (int) q.hp->load())], lp = kLp[juce::jlimit (0, 5, (int) q.lp->load())];
+            if (hp > 0) { f[4].highPass (fs, hp, 0.54); f[5].highPass (fs, hp, 1.31); }
+            if (lp > 0) f[6].lowPass (fs, lp, 0.6);
+            const bool in = q.in->load() > 0.5f;
+            for (int i = 0; i < kCurve; ++i)
+            {
+                double db = 0;
+                if (in) for (auto& b : f) db += magDb (b, curveFreq (i), fs);
+                out[(size_t) c][(size_t) i] = (float) db;
+            }
+        }
+    }
+
     void updateFilters (double fs)
     {
-        const bool link = p ("link") > 0.5f;
+        const bool ms = p ("ms") > 0.5f;
+        const bool link = p ("link") > 0.5f && ! ms;
         std::array<float, 96> key {};
         int k = 0;
         for (int c = 0; c < 2; ++c)
@@ -164,19 +209,34 @@ public:
             key[(size_t) k++] = q.lp->load(); key[(size_t) k++] = q.hp->load();
         }
         key[(size_t) k++] = (float) fs;
+        key[(size_t) k++] = (ms ? 1.0f : 0.0f) + (p ("analog") > 0.5f ? 2.0f : 0.0f) + (p ("steps") > 0.5f ? 4.0f : 0.0f) + (link ? 8.0f : 0.0f);
         if (key == lastKey) return;
         lastKey = key;
         for (int c = 0; c < 2; ++c)
         {
             const auto& q = prm[(size_t) (link ? 0 : c)];
             auto& s = ch[(size_t) c];
+            // tolérances analogiques : le canal droit n'est jamais tout à fait identique au gauche (comme un vrai appareil)
+            const bool tol = p ("analog") > 0.5f && c == 1 && ! ms;
             for (int b = 0; b < 4; ++b)
                 setBand (s.band[(size_t) b], fs, b, q.g[(size_t) b]->load(), (int) q.m[(size_t) b]->load(),
-                         q.sh[(size_t) b]->load() > 0.5f, q.bw[(size_t) b]->load(), (int) q.f[(size_t) b]->load());
+                         q.sh[(size_t) b]->load() > 0.5f, q.bw[(size_t) b]->load(), (int) q.f[(size_t) b]->load(),
+                         p ("steps") > 0.5f, tol ? 1.012 : 1.0, tol ? 0.97 : 1.0);
             const float hp = kHp[juce::jlimit (0, 5, (int) q.hp->load())], lp = kLp[juce::jlimit (0, 5, (int) q.lp->load())];
             if (hp > 0) { s.hp1.highPass (fs, hp, 0.54); s.hp2.highPass (fs, hp, 1.31); } else { s.hp1.identity(); s.hp2.identity(); }
             if (lp > 0) s.lp.lowPass (fs, juce::jmin ((double) lp, fs * 0.45), 0.6); else s.lp.identity();   // 12 dB/oct doux
-            s.xf.prepare (fs, 0.35f, 24000.0f, 0.4f);
+            s.xf.prepare (fs, 0.2f + 0.5f * p ("color") * 0.01f, 24000.0f, 0.4f);
+
+            // auto gain : compense le volume moyen ajouté / enlevé par l'EQ (100 Hz - 8 kHz) -> comparaison honnête
+            double avg = 0; int na = 0;
+            for (int i = 0; i < 40; ++i)
+            {
+                const double fq = 100.0 * std::pow (80.0, i / 39.0);
+                double db = 0;
+                for (auto& b : s.band) db += magDb (b, fq, fs);
+                avg += db; ++na;
+            }
+            s.autoComp = (float) std::pow (10.0, -(avg / na) / 20.0);
         }
     }
 
@@ -184,14 +244,23 @@ public:
     {
         updateFilters (fs);
         const int nCh = juce::jmin (2, (int) blk.getNumChannels()), n = (int) blk.getNumSamples();
-        const bool link = p ("link") > 0.5f;
+        const bool ms = p ("ms") > 0.5f && nCh == 2;
+        const bool link = p ("link") > 0.5f && ! ms;
+        const bool ag = p ("autoGain") > 0.5f;
+        const float drive = 0.04f + 0.5f * p ("color") * 0.01f;
+        float* X[2] = { blk.getChannelPointer (0), nCh > 1 ? blk.getChannelPointer (1) : nullptr };
+
+        // MID / SIDE : canal 1 = centre (voix, kick, basse), canal 2 = côtés (largeur, reverb)
+        if (ms)
+            for (int i = 0; i < n; ++i) { const float l = X[0][i], r = X[1][i]; X[0][i] = 0.5f * (l + r); X[1][i] = 0.5f * (l - r); }
+
         for (int c = 0; c < nCh; ++c)
         {
             const auto& q = prm[(size_t) (link ? 0 : c)];
             const bool in = q.in->load() > 0.5f;
-            const float g = gain (q.gain->load());
             auto& s = ch[(size_t) c];
-            float* x = blk.getChannelPointer ((size_t) c);
+            const float g = gain (q.gain->load()) * (ag && in ? s.autoComp : 1.0f);
+            float* x = X[c];
             for (int i = 0; i < n; ++i)
             {
                 float y = x[i];
@@ -201,19 +270,25 @@ public:
                     for (auto& b : s.band) y = b.process (y);
                     y = s.lp.process (y);
                 }
-                // étage de gain à lampe + transformateur de sortie (toujours là, comme l'appareil)
                 y *= g;
-                y = triode (y, 0.12f, 0.12f);
-                y = s.xf.process (y);
+                if (! ms) { y = triode (y, drive, 0.12f); y = s.xf.process (y); }
                 x[i] = y;
             }
         }
+        if (ms)
+            for (int i = 0; i < n; ++i)
+            {
+                const float m = X[0][i], sd = X[1][i];
+                // la lampe et le transfo travaillent sur G/D (comme l'appareil en sortie)
+                X[0][i] = ch[0].xf.process (triode (m + sd, drive, 0.12f));
+                X[1][i] = ch[1].xf.process (triode (m - sd, drive, 0.12f));
+            }
     }
 
     juce::AudioProcessorEditor* createEditor() override
     {
         UiSpec u;
-        u.w = 1340; u.h = 470;
+        u.w = 1340; u.h = 610;
         const auto txt = juce::Colour (0xffeef0f6), dim = juce::Colour (0xffc9cbe0), acc = juce::Colour (0xff7fd0ff);
         u.theme = { juce::Colour (0xff7a7da3), juce::Colour (0xff585b80), txt, dim, acc };
         u.theme.texture = 2;
@@ -255,8 +330,83 @@ public:
         u.controls.push_back ({ Ctl::Selector, "hp1", "HIGH PASS", 616, 385, 46, "black", { "OFF", "22", "39", "68", "120", "220" } });
         u.controls.push_back ({ Ctl::Selector, "hp2", "HIGH PASS", 724, 385, 46, "black", { "OFF", "22", "39", "68", "120", "220" } });
         juce::ignoreUnused (green);
-        return new Editor (*this, u);
+        // bande du bas : courbe, mode, couleur, options, VU
+        u.boxes.push_back ({ 40, 474, 1260, 126, juce::Colour (0xff121316), pline, 8 });
+        u.controls.push_back ({ Ctl::Selector, "ms", "MODE", 950, 532, 40, "black", { "STEREO", "M/S" } });
+        u.controls.push_back ({ Ctl::Knob, "color", "COULEUR", 1050, 532, 44, "red", {}, "0", "MAX" });
+        u.controls.push_back ({ Ctl::Button, "autoGain", "AUTO GAIN", 930, 584, 54, "", {}, {}, {}, blue });
+        u.controls.push_back ({ Ctl::Button, "analog", "ANALOG", 995, 584, 54, "", {}, {}, {}, green });
+        u.controls.push_back ({ Ctl::Button, "steps", "0.5 dB", 1060, 584, 54, "", {}, {}, {}, juce::Colour (0xffffb347) });
+        u.meters.push_back ({ 1110, 486, 88, 70, Src::OutL, "G / MID", "amber" });
+        u.meters.push_back ({ 1206, 486, 88, 70, Src::OutR, "D / SIDE", "amber" });
+        return new MassiveEditor (*this, u);
     }
+
+    // éditeur + courbe de réponse
+    class Curve : public juce::Component, private juce::Timer
+    {
+    public:
+        explicit Curve (Massive& m) : mp (m) { mp.computeCurves (cv); startTimerHz (15); setInterceptsMouseClicks (false, false); }
+        void paint (juce::Graphics& g) override
+        {
+            auto r = getLocalBounds().toFloat().reduced (6, 8);
+            auto xOf = [&] (double f) { return r.getX() + r.getWidth() * (float) (std::log (f / 20.0) / std::log (1000.0)); };
+            auto yOf = [&] (double db) { return r.getCentreY() - (float) juce::jlimit (-21.0, 21.0, db) / 20.0f * r.getHeight() * 0.5f; };
+            g.setFont (juce::FontOptions (9.5f));
+            for (double f : { 30.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0 })
+            {
+                g.setColour (juce::Colours::white.withAlpha (0.08f)); g.drawVerticalLine ((int) xOf (f), r.getY(), r.getBottom());
+                g.setColour (juce::Colours::white.withAlpha (0.35f));
+                g.drawText (f >= 1000 ? juce::String ((int) (f / 1000)) + "k" : juce::String ((int) f), juce::Rectangle<float> (xOf (f) - 14, r.getBottom() - 10, 28, 10), juce::Justification::centred);
+            }
+            for (int db : { -12, -6, 0, 6, 12 })
+            {
+                g.setColour (juce::Colours::white.withAlpha (db == 0 ? 0.25f : 0.07f)); g.drawHorizontalLine ((int) yOf (db), r.getX(), r.getRight());
+                g.setColour (juce::Colours::white.withAlpha (0.35f));
+                g.drawText ((db > 0 ? "+" : "") + juce::String (db), juce::Rectangle<float> (r.getX() + 2, yOf (db) - 6, 24, 12), juce::Justification::centredLeft);
+            }
+            const juce::Colour col[2] = { juce::Colour (0xff6fd0ff), juce::Colour (0xffffb347) };
+            for (int c = 1; c >= 0; --c)
+            {
+                juce::Path pth;
+                for (int i = 0; i < kCurve; ++i)
+                {
+                    const float x = xOf (curveFreq (i)), y = yOf (cv[(size_t) c][(size_t) i]);
+                    if (i == 0) pth.startNewSubPath (x, y); else pth.lineTo (x, y);
+                }
+                g.setColour (col[c].withAlpha (c == 0 ? 0.95f : 0.75f));
+                g.strokePath (pth, juce::PathStrokeType (c == 0 ? 2.2f : 1.6f, juce::PathStrokeType::curved));
+            }
+            const bool ms = mp.p ("ms") > 0.5f;
+            g.setFont (juce::FontOptions (10.5f, juce::Font::bold));
+            g.setColour (col[0]); g.drawText (ms ? "MID" : "GAUCHE", juce::Rectangle<float> (r.getRight() - 150, r.getY(), 70, 14), juce::Justification::centredRight);
+            g.setColour (col[1]); g.drawText (ms ? "SIDE" : "DROITE", juce::Rectangle<float> (r.getRight() - 75, r.getY(), 70, 14), juce::Justification::centredRight);
+        }
+    private:
+        void timerCallback() override { mp.computeCurves (cv); repaint(); }
+        Massive& mp;
+        std::array<std::array<float, kCurve>, 2> cv {};
+    };
+
+    class MassiveEditor : public Editor
+    {
+    public:
+        MassiveEditor (Massive& m, UiSpec u) : Editor (m, u), curve (m), spW (u.w)
+        {
+            addAndMakeVisible (curve);
+            resized();
+        }
+        void resized() override
+        {
+            Editor::resized();
+            const float s = (float) getWidth() / (float) spW;
+            curve.setBounds (48, 478, 830, 118);
+            curve.setTransform (juce::AffineTransform::scale (s));
+        }
+    private:
+        Curve curve;
+        int spW;
+    };
 
 private:
     struct Ch
@@ -264,6 +414,7 @@ private:
         std::array<Biquad, 4> band;
         Biquad hp1, hp2, lp;
         Transformer xf;
+        float autoComp = 1.0f;
     };
     std::array<Ch, 2> ch;
     struct Ptrs { std::array<std::atomic<float>*, 4> g {}, m {}, sh {}, bw {}, f {}; std::atomic<float>* in = nullptr, *gain = nullptr, *lp = nullptr, *hp = nullptr; };
