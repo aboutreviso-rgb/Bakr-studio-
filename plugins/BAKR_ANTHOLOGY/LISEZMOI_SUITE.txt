@@ -13,3 +13,4 @@ Attention : un projet FL Studio enregistre avec l ancienne version doit etre reg
 - BAKR CALIBRE : calibration automatique des enceintes (HS8) avec ton micro. Voir LISEZMOI_CALIBRE.
 - BAKR TAK35 PRO : rend le micro Takstar TAK35 plus professionnel. Voir LISEZMOI_TAK35_PRO.
 - BAKR INSTINCT : assistant vocal qui ecoute ta voix et regle la chaine. Voir LISEZMOI_INSTINCT.
+- BAKR CASQUE : calibration du casque (DT 880) + emulation d'enceintes. Voir LISEZMOI_CASQUE.

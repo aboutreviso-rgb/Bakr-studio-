@@ -1,0 +1,26 @@
+BAKR CASQUE - calibration du casque + emulation d'enceintes (pense pour le beyerdynamic DT 880)
+==============================================================================================
+
+A mettre en DERNIER sur la piste MASTER, seulement quand tu ecoutes au casque.
+(Si tu ecoutes sur les HS8, coupe-le ou mets-le en BYPASS.)  Aucune latence.
+
+HEADPHONE CALIBRATION (disque de gauche)
+  - Choisis ton casque : DT 880 (32 / 250 / 600 ohms), DT 990 PRO, DT 770 PRO, ou Aucune correction.
+  - Le plugin corrige la courbe du casque : il calme le pic "beyer" vers 6 kHz (les S et
+    cymbales trop brillants) et remonte le grave qui manque sous 60 Hz.
+  - Courbes : pointilles = casque d'origine, rose = correction, bleu = resultat.
+  - FORCE : 100 % = correction complete. Bouton power = on / off pour comparer.
+  - Les courbes des casques sont des estimations moyennes (pas une mesure de TON casque).
+
+LOUDSPEAKER EMULATION (disque de droite)
+  - Tu entends comme devant 2 enceintes : le son de gauche arrive aussi un peu a l'oreille
+    droite (avec le bon retard et l'ombre de la tete), comme dans une vraie piece.
+  - ANGLE (fleches) : 60 deg = triangle stereo standard (comme tes HS8). Plus grand = plus large.
+  - ROOM : DRY = enceintes sans piece, WET = plus de pieces (reflexions + petite reverb).
+  - Bouton power = on / off.
+
+SAFE MODE
+  - Coupe automatiquement le plugin pendant l'export du morceau (le mix exporte ne doit pas
+    etre corrige pour ton casque) et limite la sortie a -1 dB pour proteger tes oreilles.
+
+BYPASS : compare avec le son original.   VOLUME : volume d'ecoute.

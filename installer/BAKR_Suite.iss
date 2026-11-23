@@ -31,6 +31,7 @@ Name: "full"; Description: "Tous les plugins BAKR"
 Name: "custom"; Description: "Choisir les plugins"; Flags: iscustom
 
 [Components]
+Name: "casque"; Description: "BAKR CASQUE - calibration du casque (DT 880) + emulation d'enceintes"; Types: full
 Name: "instinct"; Description: "BAKR INSTINCT - assistant vocal qui ecoute ta voix et regle la chaine"; Types: full
 Name: "tak35pro"; Description: "BAKR TAK35 PRO - rend le micro Takstar TAK35 plus professionnel"; Types: full
 Name: "calibre"; Description: "BAKR CALIBRE - calibration automatique des enceintes (Yamaha HS8)"; Types: full
@@ -54,6 +55,7 @@ Name: "ha81a";   Description: "HA-81A EQ - Coulibaly Edition"; Types: full
 Name: "voxmidi"; Description: "BAKR VOXMIDI - voix vers MIDI"; Types: full
 
 [Files]
+Source: "..\pkg_suite\VST3\BAKR CASQUE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR CASQUE.vst3"; Components: casque; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR INSTINCT.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR INSTINCT.vst3"; Components: instinct; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR TAK35 PRO.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR TAK35 PRO.vst3"; Components: tak35pro; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\pkg_suite\VST3\BAKR CALIBRE.vst3\*"; DestDir: "{commoncf64}\VST3\BAKR CALIBRE.vst3"; Components: calibre; Flags: ignoreversion recursesubdirs createallsubdirs
